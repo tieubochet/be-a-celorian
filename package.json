@@ -8,7 +8,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@reown/app-kit": "^1.0.12",
+    "@reown/appkit": "^1.8.4",
+    "@reown/appkit-adapter-ethers": "^1.8.4",
+    "ethers": "^6.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
