@@ -7,13 +7,15 @@ import BottomNav from "./components/BottomNav";
 
 export default function App() {
   return (
-    <div className="flex justify-center bg-gray-50 min-h-screen">
-      <div className="w-full max-w-3xl p-4 pb-20">
-        <Header />
-        <Banner />
-        <Tabs />
-        <InfoRow />
-        <Leaderboard />
+    <div className="flex justify-center bg-slate-50 min-h-screen">
+      <div className="w-full max-w-md relative">
+        <div className="p-4 pb-24">
+          <Header />
+          <Banner />
+          <InfoRow />
+          <Tabs />
+          <Leaderboard />
+        </div>
         <BottomNav />
       </div>
     </div>
