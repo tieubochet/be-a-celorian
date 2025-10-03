@@ -1,15 +1,13 @@
-import { ConnectButton } from "@reown/app-kit";
+import React from "react";
+import { ConnectButton } from "@reown/appkit/react";
 
-export default function Header() {
+const Header: React.FC = () => {
   return (
-    <div className="flex items-center justify-between py-2">
-      <div className="flex items-center space-x-2">
-        <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white font-bold text-lg">
-          B
-        </div>
-        <span className="font-bold text-xl text-gray-800">Rewards</span>
-      </div>
+    <header className="flex justify-between items-center p-4 bg-black text-white">
+      <h1 className="text-lg font-bold">Be a Celorian</h1>
       <ConnectButton />
-    </div>
+    </header>
   );
-}
+};
+
+export default Header;
