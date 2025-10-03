@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import { ReownAppKitProvider } from "@reown/appkit";
-import "@reown/appkit/dist/styles.css";
+import '@reown/appkit/styles';
 
 const config = {
   appName: "Be a Celorian",
