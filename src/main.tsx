@@ -2,8 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
-import { AppKitProvider } from '@reown/appkit/react';
-import { appKit } from './wallet';
+import { ReownAppKitProvider } from "@reown/app-kit";
+import "@reown/app-kit/styles.css";
 
 const config = {
   appName: "Be a Celorian",
@@ -12,10 +12,10 @@ const config = {
   appIcon: "https://celo.org/favicon.ico",
 };
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <AppKitProvider appKit={appKit}>
+    <ReownAppKitProvider config={config}>
       <App />
-    </AppKitProvider>
+    </ReownAppKitProvider>
   </React.StrictMode>
 );
