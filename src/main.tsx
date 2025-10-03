@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
-import { ReownAppKitProvider } from "@reown/appkit";
+import { ReownAppkitProvider } from '@reown/appkit';
 
 const config = {
   appName: "Be a Celorian",
@@ -13,8 +13,8 @@ const config = {
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ReownAppKitProvider config={config}>
+    <ReownAppkitProvider config={config}>
       <App />
-    </ReownAppKitProvider>
+    </ReownAppkitProvider>
   </React.StrictMode>
 );
