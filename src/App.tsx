@@ -1,6 +1,6 @@
 // src/App.tsx
 
-import { useAccount } from '@reown/appkit-react';
+import { useAccount } from '@reown/appkit';
 
 function App() {
   // Sử dụng hook useAccount để lấy trạng thái kết nối và địa chỉ ví
