@@ -1,23 +1,40 @@
-import Header from "./components/Header";
-import Banner from "./components/Banner";
-import Tabs from "./components/Tabs";
-import InfoRow from "./components/InfoRow";
-import Leaderboard from "./components/Leaderboard";
-import BottomNav from "./components/BottomNav";
+// src/App.tsx
 
-export default function App() {
+import { useAccount } from '@reown/appkit-react';
+
+function App() {
+  // Sử dụng hook useAccount để lấy trạng thái kết nối và địa chỉ ví
+  const { address, isConnected } = useAccount();
+
   return (
-    <div className="flex justify-center bg-slate-50 min-h-screen">
-      <div className="w-full max-w-md relative">
-        <div className="p-4 pb-24">
-          <Header />
-          <Banner />
-          <InfoRow />
-          <Tabs />
-          <Leaderboard />
-        </div>
-        <BottomNav />
-      </div>
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-4">
+      <header className="text-center">
+        <h1 className="text-5xl font-bold mb-4">Be a Celorian</h1>
+        <p className="text-xl text-gray-400 mb-8">
+          Your gateway to the Celo ecosystem.
+        </p>
+      </header>
+
+      <main>
+        {/*
+          Sử dụng `isConnected` để hiển thị nội dung phù hợp:
+          - Nếu đã kết nối, hiển thị địa chỉ ví.
+          - Nếu chưa, hiển thị nút kết nối.
+        */}
+        {isConnected ? (
+          <div className="bg-gray-800 p-4 rounded-lg shadow-lg text-center">
+            <p className="text-green-400 mb-2">Wallet Connected!</p>
+            <p className="text-lg font-mono break-all">{address}</p>
+          </div>
+        ) : (
+          <div>
+            {/* Đây là component nút bấm từ Reown Appkit */}
+            <appkit-button />
+          </div>
+        )}
+      </main>
     </div>
-  );
+  )
 }
+
+export default App
