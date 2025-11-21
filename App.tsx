@@ -10,18 +10,20 @@ import {
   MessageSquare,
   X
 } from 'lucide-react';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAccount, useBalance } from 'wagmi';
 import { Card } from './components/Card';
 import { BadgeItem } from './components/BadgeItem';
 import { MOCK_BADGES } from './constants';
 import { Badge } from './types';
 
 const App: React.FC = () => {
-  const [isConnected, setIsConnected] = useState<boolean>(false);
+  const { address, isConnected } = useAccount();
+  const { data: balanceData } = useBalance({
+    address,
+  });
+  
   const [selectedBadge, setSelectedBadge] = useState<Badge | null>(null);
-
-  const handleConnect = () => {
-    setIsConnected(!isConnected);
-  };
 
   const handleOpenDetails = (badge: Badge) => {
     setSelectedBadge(badge);
@@ -39,7 +41,7 @@ const App: React.FC = () => {
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center shadow-lg">
-               {/* Celo Logo Simulation - Keeping logo circular as per standard brand assets, or we can make it square if desired. Keeping circle for contrast. */}
+               {/* Celo Logo Simulation */}
                <div className="w-4 h-4 rounded-full border-2 border-[#F6DF3A]"></div>
                <div className="w-4 h-4 rounded-full bg-[#F6DF3A] -ml-2 mix-blend-multiply"></div>
             </div>
@@ -52,20 +54,74 @@ const App: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-2 flex-wrap">
-            {/* Connect Button */}
-            <button
-              onClick={handleConnect}
-              className={`
-                flex items-center gap-2 px-4 py-2 rounded-[3px] font-bold text-sm transition-all shadow-sm border-2
-                ${isConnected 
-                  ? 'bg-black text-white border-black' 
-                  : 'bg-white text-black border-black hover:bg-gray-50'
-                }
-              `}
-            >
-              <Wallet size={16} />
-              {isConnected ? '0x71...A3f2' : 'Connect Wallet'}
-            </button>
+            {/* RainbowKit Connect Button */}
+            <ConnectButton.Custom>
+              {({
+                account,
+                chain,
+                openAccountModal,
+                openChainModal,
+                openConnectModal,
+                authenticationStatus,
+                mounted,
+              }) => {
+                const ready = mounted && authenticationStatus !== 'loading';
+                const connected =
+                  ready &&
+                  account &&
+                  chain &&
+                  (!authenticationStatus ||
+                    authenticationStatus === 'authenticated');
+
+                return (
+                  <div
+                    {...(!ready && {
+                      'aria-hidden': true,
+                      'style': {
+                        opacity: 0,
+                        pointerEvents: 'none',
+                        userSelect: 'none',
+                      },
+                    })}
+                  >
+                    {(() => {
+                      if (!connected) {
+                        return (
+                          <button
+                            onClick={openConnectModal}
+                            className="flex items-center gap-2 px-4 py-2 rounded-[3px] font-bold text-sm transition-all shadow-sm border-2 bg-white text-black border-black hover:bg-gray-50"
+                          >
+                            <Wallet size={16} />
+                            Connect Wallet
+                          </button>
+                        );
+                      }
+
+                      if (chain.unsupported) {
+                        return (
+                          <button
+                            onClick={openChainModal}
+                            className="flex items-center gap-2 px-4 py-2 rounded-[3px] font-bold text-sm transition-all shadow-sm border-2 bg-red-500 text-white border-red-600 hover:bg-red-600"
+                          >
+                            Wrong network
+                          </button>
+                        );
+                      }
+
+                      return (
+                        <button
+                          onClick={openAccountModal}
+                          className="flex items-center gap-2 px-4 py-2 rounded-[3px] font-bold text-sm transition-all shadow-sm border-2 bg-black text-white border-black"
+                        >
+                          <Wallet size={16} />
+                          {account.displayName}
+                        </button>
+                      );
+                    })()}
+                  </div>
+                );
+              }}
+            </ConnectButton.Custom>
 
             {/* Utility Pills */}
             <a href="#" className="p-2 bg-white/50 hover:bg-white rounded-[3px] transition-colors text-black">
@@ -86,15 +142,23 @@ const App: React.FC = () => {
               <h2 className="text-gray-500 text-sm font-semibold uppercase tracking-wider mb-1">Wallet Balance</h2>
               {isConnected ? (
                 <div className="flex items-baseline gap-2">
-                  <span className="text-4xl font-bold text-black">15.042</span>
-                  <span className="text-xl font-medium text-gray-500">CELO</span>
+                  <span className="text-4xl font-bold text-black">
+                    {balanceData ? Number(balanceData.formatted).toFixed(3) : '0.000'}
+                  </span>
+                  <span className="text-xl font-medium text-gray-500">
+                    {balanceData?.symbol || 'CELO'}
+                  </span>
                 </div>
               ) : (
                 <div className="flex flex-col gap-2">
                   <p className="text-gray-900 font-medium text-lg">Not connected</p>
-                  <button onClick={handleConnect} className="text-blue-600 text-sm font-semibold hover:underline flex items-center gap-1">
-                    Connect to show status <ArrowUpRight size={14} />
-                  </button>
+                  <ConnectButton.Custom>
+                    {({ openConnectModal }) => (
+                      <button onClick={openConnectModal} className="text-blue-600 text-sm font-semibold hover:underline flex items-center gap-1">
+                        Connect to show status <ArrowUpRight size={14} />
+                      </button>
+                    )}
+                  </ConnectButton.Custom>
                 </div>
               )}
             </div>
@@ -118,7 +182,7 @@ const App: React.FC = () => {
             </div>
           </Card>
 
-          {/* Governance & Passport Card (Combined for grid efficiency or separate) */}
+          {/* Governance & Passport Card */}
           <div className="flex flex-col gap-4">
             <Card className="flex-1">
               <div className="flex items-center gap-3 mb-3">
