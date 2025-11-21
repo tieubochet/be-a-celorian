@@ -2,17 +2,17 @@
   "frame": {
     "name": "Be a Celorian",
     "version": "1",
-    "iconUrl": "https://be-a-celorian.vercel.app/icon.png",
+    "iconUrl": "https://be-a-celorian.vercel.app/img/logo-64px.png",
     "homeUrl": "https://be-a-celorian.vercel.app",
-    "imageUrl": "https://be-a-celorian.vercel.app/image.png",
-    "splashImageUrl": "https://be-a-celorian.vercel.app/splash.png",
+    "imageUrl": "https://be-a-celorian.vercel.app/img/image.png",
+    "splashImageUrl": "https://be-a-celorian.vercel.app/img/splash.png",
     "splashBackgroundColor": "#F6DF3A",
     "webhookUrl": "https://be-a-celorian.vercel.app/api/webhook",
     "subtitle": "Miniapp for explore Celo Eco",
     "description": "Miniapp for explore Celo Eco",
     "primaryCategory": "social",
     "screenshotUrls": [
-      "https://be-a-celorian.vercel.app/screenshot.png"
+      "https://be-a-celorian.vercel.app/img/screenshot.png"
     ]
   },
   "accountAssociation": {
