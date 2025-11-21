@@ -8,8 +8,7 @@ import {
   UserCheck, 
   Twitter,
   MessageSquare,
-  X,
-  ExternalLink
+  X
 } from 'lucide-react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount, useBalance, useTransactionCount } from 'wagmi';
@@ -19,13 +18,13 @@ import { MOCK_BADGES } from './constants';
 import { Badge } from './types';
 
 const App: React.FC = () => {
-  const { address, isConnected, chain } = useAccount();
+  const { address, isConnected } = useAccount();
   
-  const { data: balanceData, isLoading: isBalanceLoading } = useBalance({
+  const { data: balanceData } = useBalance({
     address,
   });
 
-  const { data: txCount, isLoading: isTxCountLoading } = useTransactionCount({
+  const { data: txCount } = useTransactionCount({
     address,
   });
   
@@ -38,8 +37,6 @@ const App: React.FC = () => {
   const handleCloseDetails = () => {
     setSelectedBadge(null);
   };
-
-  const explorerUrl = chain?.blockExplorers?.default?.url;
 
   return (
     <div className="min-h-screen bg-[#F6DF3A] p-4 sm:p-6 flex justify-center items-start overflow-y-auto">
@@ -145,76 +142,36 @@ const App: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           
           {/* Wallet Status Card */}
-          <Card className="sm:col-span-2 flex flex-col items-center justify-center text-center relative overflow-hidden py-8 min-h-[240px]">
-            <div className="z-10 flex flex-col items-center gap-1 w-full">
+          <Card className="sm:col-span-2 flex items-center justify-between relative overflow-hidden">
+            <div className="z-10">
+              <h2 className="text-gray-500 text-sm font-semibold uppercase tracking-wider mb-1">Wallet Balance</h2>
               {isConnected ? (
-                <>
-                   <h2 className="text-2xl font-bold text-black mb-1">Wallet</h2>
-                   
-                   <div className="flex items-center gap-2 group cursor-pointer" title="View on explorer">
-                     <div className="text-lg font-semibold text-gray-700 font-mono">
-                        {address ? `${address.slice(0, 6)}...${address.slice(-4)}` : ''}
-                     </div>
-                     {explorerUrl && address && (
-                       <a 
-                         href={`${explorerUrl}/address/${address}`} 
-                         target="_blank" 
-                         rel="noreferrer"
-                         className="text-gray-400 hover:text-black transition-colors opacity-50 group-hover:opacity-100"
-                       >
-                         <ExternalLink size={14} />
-                       </a>
-                     )}
-                   </div>
-
-                   <div className="text-gray-600 text-base">
-                      chain: {chain?.id} ({chain?.name?.toLowerCase() || 'unknown'})
-                   </div>
-
-                   <div className="text-xl text-gray-800 mt-2">
-                      balance: <span className="font-bold">
-                        {isBalanceLoading 
-                          ? '...' 
-                          : balanceData 
-                            ? `${Number(balanceData.formatted).toFixed(4)} ${balanceData.symbol}` 
-                            : '0.0000 CELO'
-                        }
-                      </span>
-                   </div>
-                   
-                   <div className="mt-2 text-gray-800 font-medium text-base">
-                      transactions: <span className="font-bold">
-                        {isTxCountLoading 
-                          ? '...' 
-                          : txCount?.toString() || '0'
-                        }
-                      </span>
-                   </div>
-                   
-                   <div className="text-sm text-gray-500 mt-1 max-w-md px-4">
-                      Total transactions on {chain?.name || 'current chain'}.
-                   </div>
-                </>
+                <div className="flex items-baseline gap-2 flex-wrap">
+                  <span className="text-4xl font-bold text-black">
+                    {balanceData ? Number(balanceData.formatted).toFixed(3) : '0.000'}
+                  </span>
+                  <span className="text-xl font-medium text-gray-500">
+                    {balanceData?.symbol || 'CELO'}
+                  </span>
+                  <span className="text-lg font-medium text-gray-400 ml-1">
+                    ({txCount ? txCount.toString() : '0'} txs)
+                  </span>
+                </div>
               ) : (
-                <div className="flex flex-col items-center gap-4">
-                  <p className="text-gray-900 font-medium text-xl">Wallet not connected</p>
+                <div className="flex flex-col gap-2">
+                  <p className="text-gray-900 font-medium text-lg">Not connected</p>
                   <ConnectButton.Custom>
                     {({ openConnectModal }) => (
-                      <button 
-                        onClick={openConnectModal} 
-                        className="flex items-center gap-2 px-6 py-3 bg-black text-white rounded-[3px] font-bold hover:bg-gray-800 transition-all shadow-lg"
-                      >
-                        <Wallet size={18} />
-                        Connect Wallet
+                      <button onClick={openConnectModal} className="text-blue-600 text-sm font-semibold hover:underline flex items-center gap-1">
+                        Connect to show status <ArrowUpRight size={14} />
                       </button>
                     )}
                   </ConnectButton.Custom>
-                  <p className="text-sm text-gray-500">Connect to view your balance and stats</p>
                 </div>
               )}
             </div>
             {/* Decorative Icon Background */}
-            <Wallet className="absolute right-[-10%] bottom-[-40%] text-black/[0.03] rotate-[-15deg]" size={300} />
+            <Wallet className="absolute right-[-20px] bottom-[-20px] text-gray-100 opacity-50 rotate-[-15deg]" size={140} />
           </Card>
 
           {/* Ecosystem Card */}
