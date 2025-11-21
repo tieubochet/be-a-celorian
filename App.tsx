@@ -21,7 +21,6 @@ import { Card } from './components/Card';
 import { BadgeItem } from './components/BadgeItem';
 import { MOCK_BADGES } from './constants';
 import { Badge } from './types';
-import { sdk } from '@farcaster/miniapp-sdk'
 
 const CHECK_IN_CONTRACT = '0xa6172aa54722d4f99d0996aa6a6138181b7ee792';
 const CHECK_IN_ABI = [
@@ -433,5 +432,5 @@ const App: React.FC = () => {
     </div>
   );
 };
-await sdk.actions.ready()
+
 export default App;
