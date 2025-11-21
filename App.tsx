@@ -17,6 +17,7 @@ import {
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount, useBalance, useTransactionCount, useWriteContract, useWaitForTransactionReceipt, useReadContract } from 'wagmi';
 import { formatUnits } from 'viem';
+import { sdk } from '@farcaster/miniapp-sdk';
 import { Card } from './components/Card';
 import { BadgeItem } from './components/BadgeItem';
 import { MOCK_BADGES } from './constants';
@@ -54,6 +55,19 @@ const CHECK_IN_ABI = [
 
 const App: React.FC = () => {
   const { address, isConnected, chain } = useAccount();
+  
+  // Initialize Farcaster MiniApp SDK
+  useEffect(() => {
+    const initSdk = async () => {
+      try {
+        await sdk.actions.ready();
+      } catch (error) {
+        // Ignore error if not running in Farcaster frame, or log it if needed
+        console.debug('Farcaster SDK ready call failed:', error);
+      }
+    };
+    initSdk();
+  }, []);
   
   const { data: balanceData } = useBalance({
     address,
@@ -115,8 +129,14 @@ const App: React.FC = () => {
         {/* HEADER */}
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
+            {/* 
+              NOTE: To use local images (e.g., src="/img/celo_logo.png"), you MUST create a 'public' folder 
+              at the root of your project and move the 'img' folder inside it.
+              Current structure should be: /public/img/celo_logo.png
+              Using remote URL for now to ensure it works on Vercel immediately.
+            */}
             <img 
-              src="https://raw.githubusercontent.com/tieubochet/be-a-celorian/refs/heads/main/img/celo_logo.png" 
+              src="https://raw.githubusercontent.com/rainbow-me/rainbow-token-list/master/src/assets/celo.png" 
               alt="Celo Logo" 
               className="w-10 h-10 rounded-full shadow-lg bg-black p-1.5" 
             />

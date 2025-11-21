@@ -16,7 +16,8 @@
     "wagmi": "^2.14.0",
     "viem": "^2.21.0",
     "@tanstack/react-query": "^5.66.0",
-    "@rainbow-me/rainbowkit": "^2.2.0"
+    "@rainbow-me/rainbowkit": "^2.2.0",
+    "@farcaster/miniapp-sdk": "^0.1.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
