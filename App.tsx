@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Wallet, 
   Github, 
@@ -11,10 +11,12 @@ import {
   X,
   ExternalLink,
   CalendarCheck,
-  Loader2
+  Loader2,
+  Flame
 } from 'lucide-react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount, useBalance, useTransactionCount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
+import { useAccount, useBalance, useTransactionCount, useWriteContract, useWaitForTransactionReceipt, useReadContract } from 'wagmi';
+import { formatUnits } from 'viem';
 import { Card } from './components/Card';
 import { BadgeItem } from './components/BadgeItem';
 import { MOCK_BADGES } from './constants';
@@ -27,6 +29,25 @@ const CHECK_IN_ABI = [
     "name": "checkIn",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      }
+    ],
+    "name": "getStreak",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   }
 ] as const;
@@ -43,20 +64,39 @@ const App: React.FC = () => {
     address,
   });
 
-  // Contract interaction hooks
+  // Read Contract: Get Streak
+  const { data: streakData, refetch: refetchStreak } = useReadContract({
+    address: CHECK_IN_CONTRACT,
+    abi: CHECK_IN_ABI,
+    functionName: 'getStreak',
+    args: address ? [address] : undefined,
+    query: {
+      enabled: !!address,
+    }
+  });
+
+  // Write Contract: Check In
   const { data: hash, isPending: isWritePending, writeContract } = useWriteContract();
   const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
     hash,
   });
   
+  // Refetch streak when transaction is confirmed
+  useEffect(() => {
+    if (isConfirmed) {
+      refetchStreak();
+    }
+  }, [isConfirmed, refetchStreak]);
+
   const [selectedBadge, setSelectedBadge] = useState<Badge | null>(null);
 
   const handleCheckIn = () => {
-    if (!isConnected) return;
+    if (!address) return;
     writeContract({
       address: CHECK_IN_CONTRACT,
       abi: CHECK_IN_ABI,
       functionName: 'checkIn',
+      account: address,
     });
   };
 
@@ -158,15 +198,15 @@ const App: React.FC = () => {
               }}
             </ConnectButton.Custom>
 
-            {/* Daily Check-in Button */}
+            {/* Daily Streak Button */}
             {isConnected && (
               <button
                 onClick={handleCheckIn}
-                disabled={isWritePending || isConfirming || isConfirmed}
+                disabled={isWritePending || isConfirming}
                 className={`
                   flex items-center gap-2 px-4 py-2 rounded-[3px] font-bold text-sm transition-all shadow-sm border-2
                   ${isConfirmed 
-                    ? 'bg-green-500 text-white border-green-600 cursor-default'
+                    ? 'bg-green-500 text-white border-green-600' // Keep it clickable or styled as success
                     : 'bg-[#F6DF3A] text-black border-black hover:bg-[#eacf1f] active:translate-y-0.5'
                   }
                   ${(isWritePending || isConfirming) ? 'opacity-80 cursor-wait' : ''}
@@ -175,9 +215,14 @@ const App: React.FC = () => {
                 {(isWritePending || isConfirming) ? (
                    <Loader2 size={16} className="animate-spin" />
                 ) : (
-                   <CalendarCheck size={16} />
+                   <Flame size={16} className={streakData && Number(streakData) > 0 ? "fill-orange-500 text-orange-600" : ""} />
                 )}
-                {isWritePending ? 'Signing...' : isConfirming ? 'Confirming...' : isConfirmed ? 'Checked In' : 'Daily Check-in'}
+                {isWritePending 
+                  ? 'Signing...' 
+                  : isConfirming 
+                    ? 'Confirming...' 
+                    : `Daily Streak: ${streakData ? streakData.toString() : '0'}`
+                }
               </button>
             )}
 
@@ -201,7 +246,7 @@ const App: React.FC = () => {
               {isConnected ? (
                 <div className="flex items-baseline gap-2 flex-wrap">
                   <span className="text-4xl font-bold text-black">
-                    {balanceData ? Number(balanceData.formatted).toFixed(3) : '0.000'}
+                    {balanceData ? Number(formatUnits(balanceData.value, balanceData.decimals)).toFixed(3) : '0.000'}
                   </span>
                   <span className="text-xl font-medium text-gray-500">
                     {balanceData?.symbol || 'CELO'}
