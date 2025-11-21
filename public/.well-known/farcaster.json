@@ -6,7 +6,7 @@
     "homeUrl": "https://be-a-celorian.vercel.app",
     "imageUrl": "https://be-a-celorian.vercel.app/img/image.png",
     "splashImageUrl": "https://be-a-celorian.vercel.app/img/splash.png",
-    "splashBackgroundColor": "#333333",
+    "splashBackgroundColor": "#000000",
     "webhookUrl": "https://be-a-celorian.vercel.app/api/webhook",
     "subtitle": "Miniapp for explore Celo Eco",
     "description": "Miniapp for explore Celo Eco",
