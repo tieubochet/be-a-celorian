@@ -1,0 +1,263 @@
+import React, { useState } from 'react';
+import { 
+  Wallet, 
+  Github, 
+  Moon, 
+  Zap, 
+  ArrowUpRight, 
+  UserCheck, 
+  Twitter,
+  MessageSquare,
+  X
+} from 'lucide-react';
+import { Card } from './components/Card';
+import { BadgeItem } from './components/BadgeItem';
+import { MOCK_BADGES } from './constants';
+import { Badge } from './types';
+
+const App: React.FC = () => {
+  const [isConnected, setIsConnected] = useState<boolean>(false);
+  const [selectedBadge, setSelectedBadge] = useState<Badge | null>(null);
+
+  const handleConnect = () => {
+    setIsConnected(!isConnected);
+  };
+
+  const handleOpenDetails = (badge: Badge) => {
+    setSelectedBadge(badge);
+  };
+
+  const handleCloseDetails = () => {
+    setSelectedBadge(null);
+  };
+
+  return (
+    <div className="min-h-screen bg-[#F6DF3A] p-4 sm:p-6 flex justify-center items-start overflow-y-auto">
+      <div className="w-full max-w-[700px] flex flex-col gap-6">
+        
+        {/* HEADER */}
+        <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center shadow-lg">
+               {/* Celo Logo Simulation - Keeping logo circular as per standard brand assets, or we can make it square if desired. Keeping circle for contrast. */}
+               <div className="w-4 h-4 rounded-full border-2 border-[#F6DF3A]"></div>
+               <div className="w-4 h-4 rounded-full bg-[#F6DF3A] -ml-2 mix-blend-multiply"></div>
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-black leading-none">Celo Lite</h1>
+              <p className="text-xs font-medium text-black/70 tracking-wide mt-1">
+                Ecosystem · Staking · Governance
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* Connect Button */}
+            <button
+              onClick={handleConnect}
+              className={`
+                flex items-center gap-2 px-4 py-2 rounded-[3px] font-bold text-sm transition-all shadow-sm border-2
+                ${isConnected 
+                  ? 'bg-black text-white border-black' 
+                  : 'bg-white text-black border-black hover:bg-gray-50'
+                }
+              `}
+            >
+              <Wallet size={16} />
+              {isConnected ? '0x71...A3f2' : 'Connect Wallet'}
+            </button>
+
+            {/* Utility Pills */}
+            <a href="#" className="p-2 bg-white/50 hover:bg-white rounded-[3px] transition-colors text-black">
+              <Github size={18} />
+            </a>
+            <button className="p-2 bg-white/50 hover:bg-white rounded-[3px] transition-colors text-black">
+              <Moon size={18} />
+            </button>
+          </div>
+        </header>
+
+        {/* DASHBOARD GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          
+          {/* Wallet Status Card */}
+          <Card className="sm:col-span-2 flex items-center justify-between relative overflow-hidden">
+            <div className="z-10">
+              <h2 className="text-gray-500 text-sm font-semibold uppercase tracking-wider mb-1">Wallet Balance</h2>
+              {isConnected ? (
+                <div className="flex items-baseline gap-2">
+                  <span className="text-4xl font-bold text-black">15.042</span>
+                  <span className="text-xl font-medium text-gray-500">CELO</span>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-2">
+                  <p className="text-gray-900 font-medium text-lg">Not connected</p>
+                  <button onClick={handleConnect} className="text-blue-600 text-sm font-semibold hover:underline flex items-center gap-1">
+                    Connect to show status <ArrowUpRight size={14} />
+                  </button>
+                </div>
+              )}
+            </div>
+            {/* Decorative Icon Background */}
+            <Wallet className="absolute right-[-20px] bottom-[-20px] text-gray-100 opacity-50 rotate-[-15deg]" size={140} />
+          </Card>
+
+          {/* Ecosystem Card */}
+          <Card title="Ecosystem" className="flex flex-col justify-between">
+            <div className="flex flex-wrap gap-2">
+              {['Celo Names', 'CeloPG', 'Mento', 'Uniswap', 'GoodDollar'].map((item) => (
+                <button key={item} className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-[3px] text-sm font-medium text-gray-700 transition-colors">
+                  {item}
+                </button>
+              ))}
+            </div>
+            <div className="mt-4 pt-4 border-t border-gray-100">
+               <a href="#" className="text-sm font-bold text-black flex items-center gap-1 hover:gap-2 transition-all">
+                 Explore All Apps <ArrowUpRight size={14} />
+               </a>
+            </div>
+          </Card>
+
+          {/* Governance & Passport Card (Combined for grid efficiency or separate) */}
+          <div className="flex flex-col gap-4">
+            <Card className="flex-1">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="p-2 bg-green-100 rounded-[3px] text-green-700">
+                   <UserCheck size={20} />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900">Prosperity Passport</h3>
+                  <p className="text-xs text-gray-500">Your on-chain identity</p>
+                </div>
+              </div>
+              <div className="flex gap-2 mt-2">
+                 <button className="flex-1 py-2 bg-black text-white rounded-[3px] text-xs font-bold hover:bg-gray-800 transition-colors">
+                   Passport
+                 </button>
+                 <button className="flex-1 py-2 border border-gray-200 text-gray-600 rounded-[3px] text-xs font-bold hover:bg-gray-50 transition-colors">
+                   Verify
+                 </button>
+              </div>
+            </Card>
+
+            <Card className="flex-1">
+               <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <div className="p-2 bg-yellow-100 rounded-[3px] text-yellow-700">
+                      <Zap size={20} />
+                    </div>
+                    <span className="font-bold text-gray-900">Governance</span>
+                  </div>
+                  <span className="text-xs font-bold bg-green-100 text-green-800 px-2 py-1 rounded-[3px]">Active</span>
+               </div>
+               <p className="text-xs text-gray-500 mb-3">Vote on proposals to shape the future of the Celo Platform.</p>
+               <button className="w-full py-2 border border-black text-black rounded-[3px] text-xs font-bold hover:bg-black hover:text-white transition-colors">
+                 View Proposals
+               </button>
+            </Card>
+          </div>
+        </div>
+
+        {/* BADGES SECTION */}
+        <div className="space-y-2">
+          <Card className="!p-0 overflow-hidden">
+            <div className="px-6 py-5 border-b border-gray-100 bg-white">
+              <h2 className="text-xl font-extrabold text-gray-900 tracking-tight">Badges</h2>
+              <p className="text-gray-500 text-sm mt-1.5 leading-relaxed">
+                Short, Celo-aligned explanations to earn badges with confidence.
+              </p>
+            </div>
+
+            <div className="divide-y divide-gray-100">
+              {MOCK_BADGES.map((badge) => (
+                <BadgeItem 
+                  key={badge.id} 
+                  badge={badge} 
+                  onDetailsClick={handleOpenDetails}
+                />
+              ))}
+            </div>
+          </Card>
+        </div>
+
+        {/* FOOTER */}
+        <footer className="flex flex-col sm:flex-row items-center justify-between gap-4 py-8 mt-4 border-t border-black/10">
+           <div className="flex items-center gap-4 text-black/70">
+              <a href="#" className="hover:text-black transition-colors"><Twitter size={20} /></a>
+              <a href="#" className="hover:text-black transition-colors"><MessageSquare size={20} /></a>
+              <a href="#" className="hover:text-black transition-colors"><Github size={20} /></a>
+           </div>
+           <div className="text-xs font-medium text-black/50">
+             © {new Date().getFullYear()} Celo Lite UI Clone. Not affiliated with Celo Foundation.
+           </div>
+        </footer>
+
+        {/* BADGE DETAILS MODAL */}
+        {selectedBadge && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
+            <div className="bg-white rounded-[3px] shadow-2xl w-full max-w-md overflow-hidden relative animate-slide-up">
+              
+              <button 
+                onClick={handleCloseDetails}
+                className="absolute top-4 right-4 p-2 text-gray-400 hover:text-black hover:bg-gray-100 rounded-[3px] transition-colors"
+              >
+                <X size={20} />
+              </button>
+
+              <div className="flex flex-col items-center p-8 text-center">
+                <img 
+                  src={selectedBadge.image} 
+                  alt={selectedBadge.name} 
+                  className="w-24 h-24 rounded-[3px] shadow-md mb-6 ring-1 ring-black/5"
+                />
+                
+                <h3 className="text-2xl font-extrabold text-gray-900 mb-2 tracking-tight">
+                  {selectedBadge.name}
+                </h3>
+                
+                <span className="bg-yellow-50 text-yellow-700 text-xs font-bold px-3 py-1 rounded-[3px] border border-yellow-200 mb-6 uppercase tracking-wider">
+                  {selectedBadge.tag}
+                </span>
+
+                <p className="text-gray-600 leading-relaxed mb-8">
+                  {selectedBadge.description}
+                </p>
+
+                <div className="w-full space-y-3">
+                  <button 
+                    onClick={handleCloseDetails}
+                    className="w-full py-3 bg-black text-white rounded-[3px] font-bold hover:bg-gray-800 transition-colors shadow-lg shadow-black/10"
+                  >
+                    Close
+                  </button>
+                  
+                  {selectedBadge.links && selectedBadge.links.length > 0 && (
+                    <div className="pt-6 border-t border-gray-100 w-full">
+                       <p className="text-xs text-gray-400 uppercase tracking-widest font-bold mb-4">Related Links</p>
+                       <div className="flex flex-col gap-2">
+                          {selectedBadge.links.map((link, i) => (
+                            <a 
+                              key={i}
+                              href={link.url} 
+                              target="_blank"
+                              rel="noreferrer"
+                              className="w-full py-2.5 px-4 bg-gray-50 hover:bg-gray-100 text-gray-900 text-sm font-semibold rounded-[3px] transition-colors flex items-center justify-between group"
+                            >
+                              {link.label} <ArrowUpRight size={16} className="text-gray-400 group-hover:text-gray-900 transition-colors" />
+                            </a>
+                          ))}
+                       </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+      </div>
+    </div>
+  );
+};
+
+export default App;
