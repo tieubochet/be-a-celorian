@@ -16,48 +16,12 @@ import { MOCK_BADGES } from './constants';
 import { Badge } from './types';
 
 const App: React.FC = () => {
-  // store the connected wallet address (null when not connected)
-  const [address, setAddress] = useState<string | null>(null);
+  const [isConnected, setIsConnected] = useState<boolean>(false);
   const [selectedBadge, setSelectedBadge] = useState<Badge | null>(null);
 
-  // Basic MetaMask / EVM provider connect. Minimal and suitable for Vercel.
-  const handleConnect = async () => {
-    try {
-      const anyWindow: any = window as any;
-      if (!anyWindow.ethereum) {
-        // Prompt user to install MetaMask or another injected wallet
-        window.open('https://metamask.io/download/', '_blank');
-        return;
-      }
-
-      const accounts: string[] = await anyWindow.ethereum.request({ method: 'eth_requestAccounts' });
-      if (accounts && accounts.length > 0) {
-        setAddress(accounts[0]);
-      }
-    } catch (err) {
-      alert('Could not connect to wallet. Check your provider and try again.');
-    }
+  const handleConnect = () => {
+    setIsConnected(!isConnected);
   };
-
-  // Listen for account changes so UI updates when user switches accounts
-  React.useEffect(() => {
-    const anyWindow: any = window as any;
-    if (!anyWindow?.ethereum?.on) return;
-
-    const handleAccountsChanged = (accounts: string[]) => {
-      if (accounts && accounts.length > 0) setAddress(accounts[0]);
-      else setAddress(null);
-    };
-
-    anyWindow.ethereum.on('accountsChanged', handleAccountsChanged);
-    return () => {
-      try {
-        anyWindow.ethereum.removeListener('accountsChanged', handleAccountsChanged);
-      } catch (e) {
-        // ignore cleanup errors
-      }
-    };
-  }, []);
 
   const handleOpenDetails = (badge: Badge) => {
     setSelectedBadge(badge);
@@ -93,14 +57,14 @@ const App: React.FC = () => {
               onClick={handleConnect}
               className={`
                 flex items-center gap-2 px-4 py-2 rounded-[3px] font-bold text-sm transition-all shadow-sm border-2
-                ${address 
+                ${isConnected 
                   ? 'bg-black text-white border-black' 
                   : 'bg-white text-black border-black hover:bg-gray-50'
                 }
               `}
             >
               <Wallet size={16} />
-              {address ? `${address.slice(0,6)}...${address.slice(-4)}` : 'Connect Wallet'}
+              {isConnected ? '0x71...A3f2' : 'Connect Wallet'}
             </button>
 
             {/* Utility Pills */}
@@ -120,7 +84,7 @@ const App: React.FC = () => {
           <Card className="sm:col-span-2 flex items-center justify-between relative overflow-hidden">
             <div className="z-10">
               <h2 className="text-gray-500 text-sm font-semibold uppercase tracking-wider mb-1">Wallet Balance</h2>
-              {address ? (
+              {isConnected ? (
                 <div className="flex items-baseline gap-2">
                   <span className="text-4xl font-bold text-black">15.042</span>
                   <span className="text-xl font-medium text-gray-500">CELO</span>
@@ -129,7 +93,7 @@ const App: React.FC = () => {
                 <div className="flex flex-col gap-2">
                   <p className="text-gray-900 font-medium text-lg">Not connected</p>
                   <button onClick={handleConnect} className="text-blue-600 text-sm font-semibold hover:underline flex items-center gap-1">
-                    Connect wallet to show status <ArrowUpRight size={14} />
+                    Connect to show status <ArrowUpRight size={14} />
                   </button>
                 </div>
               )}
