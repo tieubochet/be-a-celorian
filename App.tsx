@@ -136,7 +136,7 @@ const App: React.FC = () => {
               Using remote URL for now to ensure it works on Vercel immediately.
             */}
             <img 
-              src="https://raw.githubusercontent.com/rainbow-me/rainbow-token-list/master/src/assets/celo.png" 
+              src="/img/celo.png" 
               alt="Celo Logo" 
               className="w-10 h-10 rounded-full shadow-lg bg-black p-1.5" 
             />
