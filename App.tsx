@@ -116,9 +116,9 @@ const App: React.FC = () => {
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <img 
-              src="/img/celo_logo.png" 
+              src="https://raw.githubusercontent.com/rainbow-me/rainbow-token-list/master/src/assets/celo.png" 
               alt="Celo Logo" 
-              className="w-10 h-10 rounded-full shadow-lg" 
+              className="w-10 h-10 rounded-full shadow-lg bg-black p-1.5" 
             />
             <div>
               <h1 className="text-2xl font-bold text-black leading-none">Be a Celorian</h1>
