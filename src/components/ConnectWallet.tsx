@@ -29,3 +29,5 @@ export function WalletStatus() {
     </div>
   );
 }
+
+export default WalletStatus;
