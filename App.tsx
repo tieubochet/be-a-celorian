@@ -136,7 +136,7 @@ const App: React.FC = () => {
               Using remote URL for now to ensure it works on Vercel immediately.
             */}
             <img 
-              src="/img/celo_logo.png" 
+              src="/img/logo-64px.png" 
               alt="Celo Logo" 
               className="w-10 h-10 rounded-full shadow-lg bg-black p-1.5" 
             />
@@ -247,9 +247,6 @@ const App: React.FC = () => {
             )}
 
             {/* Utility Pills */}
-            <a href="#" className="p-2 bg-white/50 hover:bg-white rounded-[3px] transition-colors text-black">
-              <Github size={18} />
-            </a>
             <button className="p-2 bg-white/50 hover:bg-white rounded-[3px] transition-colors text-black">
               <Moon size={18} />
             </button>

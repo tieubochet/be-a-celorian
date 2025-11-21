@@ -5,12 +5,15 @@
     "iconUrl": "https://be-a-celorian.vercel.app/icon.png",
     "homeUrl": "https://be-a-celorian.vercel.app",
     "imageUrl": "https://be-a-celorian.vercel.app/image.png",
-    "splashImageUrl": "https://be-a-celorian.vercel.app/splash.png",
+    "splashImageUrl": "https://be-a-celorian.vercel.app/logo-64px.png",
     "splashBackgroundColor": "#F6DF3A",
     "webhookUrl": "https://be-a-celorian.vercel.app/api/webhook",
     "subtitle": "Miniapp for explore Celo Eco",
     "description": "Miniapp for explore Celo Eco",
-    "primaryCategory": "social"
+    "primaryCategory": "social",
+    "screenshotUrls": [
+      "https://be-a-celorian.vercel.app/screenshot.png"
+    ]
   },
   "accountAssociation": {
     "header": "eyJmaWQiOjI2MDI5OSwidHlwZSI6ImF1dGgiLCJrZXkiOiIweGE1NjNDYTRFMGZmMjIzNjMzMkUyRkRmRDkxZkZEOTZlNTk0NzQ5RkYifQ",
