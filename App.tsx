@@ -53,8 +53,7 @@ const CHECK_IN_ABI = [
 ] as const;
 
 const App: React.FC = () => {
-  // Removed 'chain' from destructuring to avoid TS error
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, chain } = useAccount();
   
   const { data: balanceData } = useBalance({
     address,
@@ -91,12 +90,13 @@ const App: React.FC = () => {
   const [selectedBadge, setSelectedBadge] = useState<Badge | null>(null);
 
   const handleCheckIn = () => {
-    if (!address) return;
+    if (!address || !chain) return;
     writeContract({
       address: CHECK_IN_CONTRACT,
       abi: CHECK_IN_ABI,
       functionName: 'checkIn',
       account: address,
+      chain,
     });
   };
 
@@ -115,13 +115,13 @@ const App: React.FC = () => {
         {/* HEADER */}
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center shadow-lg">
-               {/* Celo Logo Simulation */}
-               <div className="w-4 h-4 rounded-full border-2 border-[#F6DF3A]"></div>
-               <div className="w-4 h-4 rounded-full bg-[#F6DF3A] -ml-2 mix-blend-multiply"></div>
-            </div>
+            <img 
+              src="/img/celo_logo.png" 
+              alt="Celo Logo" 
+              className="w-10 h-10 rounded-full shadow-lg" 
+            />
             <div>
-              <h1 className="text-2xl font-bold text-black leading-none">Celo Lite</h1>
+              <h1 className="text-2xl font-bold text-black leading-none">Be a Celorian</h1>
               <p className="text-xs font-medium text-black/70 tracking-wide mt-1">
                 Ecosystem · Staking · Governance
               </p>
@@ -361,7 +361,7 @@ const App: React.FC = () => {
               <a href="#" className="hover:text-black transition-colors"><Github size={20} /></a>
            </div>
            <div className="text-xs font-medium text-black/50">
-             © {new Date().getFullYear()} Celo Lite UI Clone. Not affiliated with Celo Foundation.
+             © {new Date().getFullYear()} Be a Celorian. Not affiliated with Celo Foundation.
            </div>
         </footer>
 
