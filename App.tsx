@@ -32,7 +32,8 @@ const CHECK_IN_ABI = [
 ] as const;
 
 const App: React.FC = () => {
-  const { address, isConnected, chain } = useAccount();
+  // Removed 'chain' from destructuring to avoid TS error
+  const { address, isConnected } = useAccount();
   
   const { data: balanceData } = useBalance({
     address,
@@ -158,7 +159,7 @@ const App: React.FC = () => {
             </ConnectButton.Custom>
 
             {/* Daily Check-in Button */}
-            {isConnected && !chain?.unsupported && (
+            {isConnected && (
               <button
                 onClick={handleCheckIn}
                 disabled={isWritePending || isConfirming || isConfirmed}
