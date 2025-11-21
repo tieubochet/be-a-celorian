@@ -11,7 +11,7 @@ import {
   X
 } from 'lucide-react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount, useBalance, useTransactionCount } from 'wagmi';
+import { useAccount, useBalance } from 'wagmi';
 import { Card } from './components/Card';
 import { BadgeItem } from './components/BadgeItem';
 import { MOCK_BADGES } from './constants';
@@ -19,12 +19,7 @@ import { Badge } from './types';
 
 const App: React.FC = () => {
   const { address, isConnected } = useAccount();
-  
   const { data: balanceData } = useBalance({
-    address,
-  });
-
-  const { data: txCount } = useTransactionCount({
     address,
   });
   
@@ -146,15 +141,12 @@ const App: React.FC = () => {
             <div className="z-10">
               <h2 className="text-gray-500 text-sm font-semibold uppercase tracking-wider mb-1">Wallet Balance</h2>
               {isConnected ? (
-                <div className="flex items-baseline gap-2 flex-wrap">
+                <div className="flex items-baseline gap-2">
                   <span className="text-4xl font-bold text-black">
                     {balanceData ? Number(balanceData.formatted).toFixed(3) : '0.000'}
                   </span>
                   <span className="text-xl font-medium text-gray-500">
                     {balanceData?.symbol || 'CELO'}
-                  </span>
-                  <span className="text-lg font-medium text-gray-400 ml-1">
-                    ({txCount ? txCount.toString() : '0'} txs)
                   </span>
                 </div>
               ) : (
@@ -176,6 +168,9 @@ const App: React.FC = () => {
 
           {/* Ecosystem Card */}
           <Card title="Ecosystem" className="flex flex-col justify-between">
+            <p className="text-sm text-gray-600 mb-4 leading-snug">
+               Explore core identity & impact apps in the Celo ecosystem.
+            </p>
             <div className="flex flex-wrap gap-2">
               {['Celo Names', 'CeloPG', 'Mento', 'Uniswap', 'GoodDollar'].map((item) => (
                 <button key={item} className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-[3px] text-sm font-medium text-gray-700 transition-colors">
