@@ -8,22 +8,56 @@ import {
   UserCheck, 
   Twitter,
   MessageSquare,
-  X
+  X,
+  ExternalLink,
+  CalendarCheck,
+  Loader2
 } from 'lucide-react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount, useBalance } from 'wagmi';
+import { useAccount, useBalance, useTransactionCount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { Card } from './components/Card';
 import { BadgeItem } from './components/BadgeItem';
 import { MOCK_BADGES } from './constants';
 import { Badge } from './types';
 
+const CHECK_IN_CONTRACT = '0xa6172aa54722d4f99d0996aa6a6138181b7ee792';
+const CHECK_IN_ABI = [
+  {
+    "inputs": [],
+    "name": "checkIn",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+] as const;
+
 const App: React.FC = () => {
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, chain } = useAccount();
+  
   const { data: balanceData } = useBalance({
     address,
   });
+
+  const { data: txCount } = useTransactionCount({
+    address,
+  });
+
+  // Contract interaction hooks
+  const { data: hash, isPending: isWritePending, writeContract } = useWriteContract();
+  const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
+    hash,
+  });
   
   const [selectedBadge, setSelectedBadge] = useState<Badge | null>(null);
+
+  const handleCheckIn = () => {
+    if (!isConnected) return;
+    writeContract({
+      address: CHECK_IN_CONTRACT,
+      abi: CHECK_IN_ABI,
+      functionName: 'checkIn',
+    });
+  };
 
   const handleOpenDetails = (badge: Badge) => {
     setSelectedBadge(badge);
@@ -123,6 +157,29 @@ const App: React.FC = () => {
               }}
             </ConnectButton.Custom>
 
+            {/* Daily Check-in Button */}
+            {isConnected && !chain?.unsupported && (
+              <button
+                onClick={handleCheckIn}
+                disabled={isWritePending || isConfirming || isConfirmed}
+                className={`
+                  flex items-center gap-2 px-4 py-2 rounded-[3px] font-bold text-sm transition-all shadow-sm border-2
+                  ${isConfirmed 
+                    ? 'bg-green-500 text-white border-green-600 cursor-default'
+                    : 'bg-[#F6DF3A] text-black border-black hover:bg-[#eacf1f] active:translate-y-0.5'
+                  }
+                  ${(isWritePending || isConfirming) ? 'opacity-80 cursor-wait' : ''}
+                `}
+              >
+                {(isWritePending || isConfirming) ? (
+                   <Loader2 size={16} className="animate-spin" />
+                ) : (
+                   <CalendarCheck size={16} />
+                )}
+                {isWritePending ? 'Signing...' : isConfirming ? 'Confirming...' : isConfirmed ? 'Checked In' : 'Daily Check-in'}
+              </button>
+            )}
+
             {/* Utility Pills */}
             <a href="#" className="p-2 bg-white/50 hover:bg-white rounded-[3px] transition-colors text-black">
               <Github size={18} />
@@ -141,12 +198,15 @@ const App: React.FC = () => {
             <div className="z-10">
               <h2 className="text-gray-500 text-sm font-semibold uppercase tracking-wider mb-1">Wallet Balance</h2>
               {isConnected ? (
-                <div className="flex items-baseline gap-2">
+                <div className="flex items-baseline gap-2 flex-wrap">
                   <span className="text-4xl font-bold text-black">
                     {balanceData ? Number(balanceData.formatted).toFixed(3) : '0.000'}
                   </span>
                   <span className="text-xl font-medium text-gray-500">
                     {balanceData?.symbol || 'CELO'}
+                  </span>
+                  <span className="text-lg font-medium text-gray-400 ml-1">
+                    ({txCount ? txCount.toString() : '0'} txs)
                   </span>
                 </div>
               ) : (
