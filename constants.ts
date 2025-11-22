@@ -410,8 +410,8 @@ export const MOCK_BADGES: Badge[] = [
       'Retire 1000 Eco Credits'
     ],
     links: [
-      { label: 'Pool A', url: 'https://www.regenatlas.xyz/' },
-      { label: 'Pool B', url: 'https://www.regenatlas.xyz/' }
+      { label: 'Pool A', url: 'https://www.regenatlas.xyz/assets/91efab48-decc-46ac-bc7b-c2ec7c272548' },
+      { label: 'Pool B', url: 'https://www.regenatlas.xyz/assets/d4a3e607-7bd5-49b0-a4ef-4715c2fe65d4' }
     ]
   },
   {
@@ -576,7 +576,7 @@ export const MOCK_BADGES: Badge[] = [
 ];
 
 export const SOCIAL_LINKS = [
-  { name: 'Twitter', url: '#' },
-  { name: 'Discord', url: '#' },
-  { name: 'Telegram', url: '#' },
+  { name: 'Twitter', url: 'https://x.com/Celo' },
+  { name: 'Discord', url: 'https://discord.gg/celo' },
+  { name: 'Telegram', url: 'https://t.me/+3uD9NKPbStYwY2Nk' },
 ];
