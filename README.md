@@ -103,5 +103,5 @@ This will generate static files in the `dist` directory, which can be deployed t
 
 ## 📄 License
 
-This project is for educational and community purposes.
+This project is for educational and community purposes. Inspired by wenaltszn.eth.
 **Not affiliated with Celo Foundation.**
