@@ -10,7 +10,10 @@ export interface Badge {
   image: string;
   name: string;
   tag: string;
-  description: string;
+  description: string; // Dùng làm fallback hoặc đoạn intro ngắn
+  whyItMatters?: string;
+  howToProgress?: string[];
+  tiers?: string[];
   links: BadgeLink[];
 }
 

@@ -7,6 +7,19 @@ export const MOCK_BADGES: Badge[] = [
     name: 'Celo Voter',
     tag: 'Celo',
     description: 'Vote on on-chain governance proposals via Mondo.',
+    whyItMatters: 'Voting steers protocol parameters and treasury. Casting votes with locked/staked CELO builds a credible on-chain civic footprint and helps align the network with its community.',
+    howToProgress: [
+      'Open the governance portal (Mondo) and connect your wallet on Celo Mainnet.',
+      'Ensure you have voting power (lock/stake CELO on a validator via Mondo).',
+      'Pick an active proposal, review details, choose For / Against / Abstain.',
+      'Submit the vote and sign the transaction. Your vote will appear on the proposal page/explorer.'
+    ],
+    tiers: [
+      'Vote on 1 Celo Proposal',
+      'Vote on 5 Celo Proposal',
+      'Vote on 15 Celo Proposal',
+      'Vote on 30 Celo Proposal'
+    ],
     links: [
       { label: 'Mondo Governance', url: 'https://mondo.celo.org/governance' }
     ]

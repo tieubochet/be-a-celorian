@@ -469,7 +469,7 @@ const App: React.FC = () => {
             onClick={handleCloseDetails}
           >
             <div 
-              className="w-full sm:max-w-md bg-[var(--bg-card)] rounded-t-2xl sm:rounded-[12px] shadow-2xl max-h-[85vh] sm:max-h-[auto] overflow-y-auto animate-slide-up-mobile sm:animate-zoom-in relative flex flex-col"
+              className="w-full sm:max-w-lg bg-[var(--bg-card)] rounded-t-2xl sm:rounded-[12px] shadow-2xl max-h-[90vh] sm:max-h-[80vh] overflow-y-auto animate-slide-up-mobile sm:animate-zoom-in relative flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Mobile Drag Handle */}
@@ -485,49 +485,88 @@ const App: React.FC = () => {
                 <X size={20} />
               </button>
 
-              <div className="flex flex-col items-center p-6 sm:p-8 text-center">
-                <img 
-                  src={selectedBadge.image} 
-                  alt={selectedBadge.name} 
-                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-[3px] shadow-md mb-5 sm:mb-6 ring-1 ring-[var(--ring-color)]"
-                />
-                
-                <h3 className="text-xl sm:text-2xl font-extrabold text-[var(--text-primary)] mb-2 tracking-tight">
-                  {selectedBadge.name}
-                </h3>
-                
-                {/* Tag Removed Here */}
+              <div className="flex flex-col p-6 sm:p-8 text-left">
+                {/* Header */}
+                <div className="flex items-center gap-4 mb-6">
+                   <img 
+                     src={selectedBadge.image} 
+                     alt={selectedBadge.name} 
+                     className="w-16 h-16 rounded-[3px] shadow-md ring-1 ring-[var(--ring-color)]"
+                   />
+                   <div>
+                      <h3 className="text-2xl font-extrabold text-[var(--text-primary)] tracking-tight leading-none mb-1">
+                        {selectedBadge.name}
+                      </h3>
+                      <span className="text-xs font-medium text-[var(--text-secondary)]">Chain: Celo</span>
+                   </div>
+                </div>
 
-                <p className="text-[var(--text-secondary)] leading-relaxed mb-8 text-sm sm:text-base">
-                  {selectedBadge.description}
-                </p>
+                {/* Why it matters */}
+                {selectedBadge.whyItMatters ? (
+                  <div className="mb-6">
+                    <h4 className="text-sm font-bold text-[var(--text-primary)] mb-2">Why it matters</h4>
+                    <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
+                      {selectedBadge.whyItMatters}
+                    </p>
+                  </div>
+                ) : (
+                  <p className="text-[var(--text-secondary)] leading-relaxed mb-6 text-sm">
+                    {selectedBadge.description}
+                  </p>
+                )}
 
-                <div className="w-full space-y-3">
-                  <button 
-                    onClick={handleCloseDetails}
-                    className="w-full py-3 bg-[var(--btn-primary)] text-[var(--btn-text)] rounded-[3px] font-bold hover:opacity-90 transition-colors shadow-lg"
-                  >
-                    Close
-                  </button>
-                  
-                  {selectedBadge.links && selectedBadge.links.length > 0 && (
-                    <div className="pt-6 border-t border-[var(--border-color)] w-full">
-                       <p className="text-xs text-[var(--text-secondary)] uppercase tracking-widest font-bold mb-4">Related Links</p>
-                       <div className="flex flex-col gap-2">
-                          {selectedBadge.links.map((link, i) => (
-                            <a 
-                              key={i}
-                              href={link.url} 
-                              target="_blank"
-                              rel="noreferrer"
-                              className="w-full py-3 sm:py-2.5 px-4 bg-[var(--bg-secondary)] hover:bg-[var(--border-highlight)] text-[var(--text-primary)] text-sm font-semibold rounded-[3px] transition-colors flex items-center justify-between group"
-                            >
-                              {link.label} <ArrowUpRight size={16} className="text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors" />
-                            </a>
-                          ))}
-                       </div>
-                    </div>
-                  )}
+                {/* How to progress */}
+                {selectedBadge.howToProgress && (
+                  <div className="mb-6">
+                    <h4 className="text-sm font-bold text-[var(--text-primary)] mb-2">How to progress</h4>
+                    <ul className="list-disc pl-4 space-y-1.5">
+                      {selectedBadge.howToProgress.map((step, i) => (
+                        <li key={i} className="text-[var(--text-secondary)] text-sm leading-snug">{step}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Tiers */}
+                {selectedBadge.tiers && (
+                  <div className="mb-8">
+                    <h4 className="text-sm font-bold text-[var(--text-primary)] mb-2">Tiers</h4>
+                    <ul className="list-disc pl-4 space-y-1.5">
+                      {selectedBadge.tiers.map((tier, i) => (
+                        <li key={i} className="text-[var(--text-secondary)] text-sm leading-snug">{tier}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Links (Buttons) */}
+                <div className="mt-auto">
+                   {/* Use links if available, or default Close button if needed */}
+                   {selectedBadge.links && selectedBadge.links.length > 0 ? (
+                     <div className="w-full">
+                        <h4 className="text-sm font-bold text-[var(--text-primary)] mb-3 text-center">Links</h4>
+                        <div className="flex flex-col gap-3">
+                           {selectedBadge.links.map((link, i) => (
+                             <a 
+                               key={i}
+                               href={link.url} 
+                               target="_blank"
+                               rel="noreferrer"
+                               className="w-full py-3 px-4 bg-black text-white hover:bg-gray-800 rounded-[8px] text-sm font-bold transition-colors flex items-center justify-between group shadow-md"
+                             >
+                               {link.label} <ExternalLink size={16} className="text-gray-400 group-hover:text-white transition-colors" />
+                             </a>
+                           ))}
+                        </div>
+                     </div>
+                   ) : (
+                    <button 
+                      onClick={handleCloseDetails}
+                      className="w-full py-3 bg-[var(--btn-primary)] text-[var(--btn-text)] rounded-[3px] font-bold hover:opacity-90 transition-colors shadow-lg"
+                    >
+                      Close
+                    </button>
+                   )}
                 </div>
               </div>
             </div>
