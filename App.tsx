@@ -3,6 +3,8 @@ import {
   Wallet, 
   Github, 
   Moon, 
+  Sun,
+  Cloud,
   Zap, 
   ArrowUpRight, 
   UserCheck, 
@@ -53,7 +55,61 @@ const CHECK_IN_ABI = [
   }
 ] as const;
 
+type Theme = 'light' | 'dark' | 'dim';
+
+const THEMES = {
+  light: {
+    '--bg-app': '#F6DF3A',
+    '--bg-card': '#ffffff',
+    '--bg-secondary': '#f3f4f6', // gray-100
+    '--text-primary': '#111827', // gray-900
+    '--text-secondary': '#6b7280', // gray-500
+    '--text-inverse': '#ffffff',
+    '--border-color': '#f3f4f6', // gray-100
+    '--border-highlight': '#e5e7eb', // gray-200
+    '--hover-bg': '#fffdf5',
+    '--btn-primary': '#000000',
+    '--btn-text': '#ffffff',
+    '--pill-bg': 'rgba(255, 255, 255, 0.5)',
+    '--pill-hover': '#ffffff',
+    '--ring-color': 'rgba(0, 0, 0, 0.05)',
+  },
+  dark: {
+    '--bg-app': '#000000',
+    '--bg-card': '#111827', // gray-900
+    '--bg-secondary': '#1f2937', // gray-800
+    '--text-primary': '#f9fafb', // gray-50
+    '--text-secondary': '#9ca3af', // gray-400
+    '--text-inverse': '#000000',
+    '--border-color': '#1f2937', // gray-800
+    '--border-highlight': '#374151', // gray-700
+    '--hover-bg': '#1f2937', 
+    '--btn-primary': '#ffffff',
+    '--btn-text': '#000000',
+    '--pill-bg': 'rgba(255, 255, 255, 0.1)',
+    '--pill-hover': 'rgba(255, 255, 255, 0.2)',
+    '--ring-color': 'rgba(255, 255, 255, 0.1)',
+  },
+  dim: {
+    '--bg-app': '#1c1917', // stone-900
+    '--bg-card': '#292524', // stone-800
+    '--bg-secondary': '#44403c', // stone-700
+    '--text-primary': '#f5f5f4', // stone-100
+    '--text-secondary': '#a8a29e', // stone-400
+    '--text-inverse': '#1c1917',
+    '--border-color': '#44403c', // stone-700
+    '--border-highlight': '#57534e', // stone-600
+    '--hover-bg': '#44403c',
+    '--btn-primary': '#f5f5f4',
+    '--btn-text': '#1c1917',
+    '--pill-bg': 'rgba(0, 0, 0, 0.2)',
+    '--pill-hover': 'rgba(0, 0, 0, 0.4)',
+    '--ring-color': 'rgba(255, 255, 255, 0.1)',
+  }
+};
+
 const App: React.FC = () => {
+  const [theme, setTheme] = useState<Theme>('light');
   const { address, isConnected, chain } = useAccount();
   
   // Initialize Farcaster MiniApp SDK
@@ -62,12 +118,25 @@ const App: React.FC = () => {
       try {
         await sdk.actions.ready();
       } catch (error) {
-        // Ignore error if not running in Farcaster frame, or log it if needed
         console.debug('Farcaster SDK ready call failed:', error);
       }
     };
     initSdk();
   }, []);
+
+  // Load theme from local storage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('celorian-theme') as Theme;
+    if (savedTheme && ['light', 'dark', 'dim'].includes(savedTheme)) {
+      setTheme(savedTheme);
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const nextTheme = theme === 'light' ? 'dark' : theme === 'dark' ? 'dim' : 'light';
+    setTheme(nextTheme);
+    localStorage.setItem('celorian-theme', nextTheme);
+  };
   
   const { data: balanceData } = useBalance({
     address,
@@ -123,26 +192,26 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F6DF3A] p-4 sm:p-6 flex justify-center items-start overflow-y-auto">
+    <div 
+      className="min-h-screen p-4 sm:p-6 flex justify-center items-start overflow-y-auto transition-colors duration-300"
+      style={{
+        backgroundColor: 'var(--bg-app)',
+        ...(THEMES[theme] as React.CSSProperties)
+      }}
+    >
       <div className="w-full max-w-[700px] flex flex-col gap-6">
         
         {/* HEADER */}
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            {/* 
-              NOTE: To use local images (e.g., src="/img/celo_logo.png"), you MUST create a 'public' folder 
-              at the root of your project and move the 'img' folder inside it.
-              Current structure should be: /public/img/celo_logo.png
-              Using remote URL for now to ensure it works on Vercel immediately.
-            */}
             <img 
-              src="/img/logo-64px.png" 
+              src="https://raw.githubusercontent.com/rainbow-me/rainbow-token-list/master/src/assets/celo.png" 
               alt="Celo Logo" 
               className="w-10 h-10 rounded-full shadow-lg bg-black p-1.5" 
             />
             <div>
-              <h1 className="text-2xl font-bold text-black leading-none">Be a Celorian</h1>
-              <p className="text-xs font-medium text-black/70 tracking-wide mt-1">
+              <h1 className="text-2xl font-bold text-[var(--text-primary)] leading-none">Be a Celorian</h1>
+              <p className="text-xs font-medium text-[var(--text-secondary)] tracking-wide mt-1">
                 Ecosystem · Staking · Governance
               </p>
             </div>
@@ -184,7 +253,7 @@ const App: React.FC = () => {
                         return (
                           <button
                             onClick={openConnectModal}
-                            className="flex items-center gap-2 px-4 py-2 rounded-[3px] font-bold text-sm transition-all shadow-sm border-2 bg-white text-black border-black hover:bg-gray-50"
+                            className="flex items-center gap-2 px-4 py-2 rounded-[3px] font-bold text-sm transition-all shadow-sm border-2 border-[var(--btn-primary)] bg-[var(--bg-card)] text-[var(--text-primary)] hover:opacity-80"
                           >
                             <Wallet size={16} />
                             Connect Wallet
@@ -206,7 +275,7 @@ const App: React.FC = () => {
                       return (
                         <button
                           onClick={openAccountModal}
-                          className="flex items-center gap-2 px-4 py-2 rounded-[3px] font-bold text-sm transition-all shadow-sm border-2 bg-black text-white border-black"
+                          className="flex items-center gap-2 px-4 py-2 rounded-[3px] font-bold text-sm transition-all shadow-sm border-2 bg-[var(--btn-primary)] text-[var(--btn-text)] border-[var(--btn-primary)]"
                         >
                           <Wallet size={16} />
                           {account.displayName}
@@ -226,8 +295,8 @@ const App: React.FC = () => {
                 className={`
                   flex items-center gap-2 px-4 py-2 rounded-[3px] font-bold text-sm transition-all shadow-sm border-2
                   ${isConfirmed 
-                    ? 'bg-green-500 text-white border-green-600' // Keep it clickable or styled as success
-                    : 'bg-[#F6DF3A] text-black border-black hover:bg-[#eacf1f] active:translate-y-0.5'
+                    ? 'bg-green-500 text-white border-green-600' 
+                    : 'bg-[var(--bg-app)] text-[var(--text-primary)] border-[var(--text-primary)] hover:opacity-80 active:translate-y-0.5'
                   }
                   ${(isWritePending || isConfirming) ? 'opacity-80 cursor-wait' : ''}
                 `}
@@ -246,10 +315,21 @@ const App: React.FC = () => {
               </button>
             )}
 
-            {/* Utility Pills */}
-            <button className="p-2 bg-white/50 hover:bg-white rounded-[3px] transition-colors text-black">
-              <Moon size={18} />
+            {/* Theme Toggle Button */}
+            <button 
+              onClick={toggleTheme}
+              className="p-2 rounded-[3px] transition-colors text-[var(--text-primary)] bg-[var(--pill-bg)] hover:bg-[var(--pill-hover)]"
+              title={`Switch to ${theme === 'light' ? 'Dark' : theme === 'dark' ? 'Dim' : 'Light'} mode`}
+            >
+              {theme === 'light' && <Sun size={18} />}
+              {theme === 'dark' && <Moon size={18} />}
+              {theme === 'dim' && <Cloud size={18} />}
             </button>
+
+            {/* Utility Pills */}
+            <a href="#" className="p-2 rounded-[3px] transition-colors text-[var(--text-primary)] bg-[var(--pill-bg)] hover:bg-[var(--pill-hover)]">
+              <Github size={18} />
+            </a>
           </div>
         </header>
 
@@ -259,25 +339,25 @@ const App: React.FC = () => {
           {/* Wallet Status Card */}
           <Card className="sm:col-span-2 flex items-center justify-between relative overflow-hidden">
             <div className="z-10">
-              <h2 className="text-gray-500 text-sm font-semibold uppercase tracking-wider mb-1">Wallet Balance</h2>
+              <h2 className="text-[var(--text-secondary)] text-sm font-semibold uppercase tracking-wider mb-1">Wallet Balance</h2>
               {isConnected ? (
                 <div className="flex items-baseline gap-2 flex-wrap">
-                  <span className="text-4xl font-bold text-black">
+                  <span className="text-4xl font-bold text-[var(--text-primary)]">
                     {balanceData ? Number(formatUnits(balanceData.value, balanceData.decimals)).toFixed(3) : '0.000'}
                   </span>
-                  <span className="text-xl font-medium text-gray-500">
+                  <span className="text-xl font-medium text-[var(--text-secondary)]">
                     {balanceData?.symbol || 'CELO'}
                   </span>
-                  <span className="text-lg font-medium text-gray-400 ml-1">
+                  <span className="text-lg font-medium text-[var(--text-secondary)] opacity-70 ml-1">
                     ({txCount ? txCount.toString() : '0'} txs)
                   </span>
                 </div>
               ) : (
                 <div className="flex flex-col gap-2">
-                  <p className="text-gray-900 font-medium text-lg">Not connected</p>
+                  <p className="text-[var(--text-primary)] font-medium text-lg">Not connected</p>
                   <ConnectButton.Custom>
                     {({ openConnectModal }) => (
-                      <button onClick={openConnectModal} className="text-blue-600 text-sm font-semibold hover:underline flex items-center gap-1">
+                      <button onClick={openConnectModal} className="text-blue-500 text-sm font-semibold hover:underline flex items-center gap-1">
                         Connect to show status <ArrowUpRight size={14} />
                       </button>
                     )}
@@ -286,23 +366,23 @@ const App: React.FC = () => {
               )}
             </div>
             {/* Decorative Icon Background */}
-            <Wallet className="absolute right-[-20px] bottom-[-20px] text-gray-100 opacity-50 rotate-[-15deg]" size={140} />
+            <Wallet className="absolute right-[-20px] bottom-[-20px] text-[var(--text-primary)] opacity-5 rotate-[-15deg]" size={140} />
           </Card>
 
           {/* Ecosystem Card */}
           <Card title="Ecosystem" className="flex flex-col justify-between">
-            <p className="text-sm text-gray-600 mb-4 leading-snug">
+            <p className="text-sm text-[var(--text-secondary)] mb-4 leading-snug">
                Explore core identity & impact apps in the Celo ecosystem.
             </p>
             <div className="flex flex-wrap gap-2">
               {['Celo Names', 'CeloPG', 'Mento', 'Uniswap', 'GoodDollar'].map((item) => (
-                <button key={item} className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-[3px] text-sm font-medium text-gray-700 transition-colors">
+                <button key={item} className="px-3 py-1.5 bg-[var(--bg-secondary)] hover:bg-[var(--border-highlight)] rounded-[3px] text-sm font-medium text-[var(--text-primary)] transition-colors">
                   {item}
                 </button>
               ))}
             </div>
-            <div className="mt-4 pt-4 border-t border-gray-100">
-               <a href="#" className="text-sm font-bold text-black flex items-center gap-1 hover:gap-2 transition-all">
+            <div className="mt-4 pt-4 border-t border-[var(--border-color)]">
+               <a href="#" className="text-sm font-bold text-[var(--text-primary)] flex items-center gap-1 hover:gap-2 transition-all">
                  Explore All Apps <ArrowUpRight size={14} />
                </a>
             </div>
@@ -316,15 +396,15 @@ const App: React.FC = () => {
                    <UserCheck size={20} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900">Prosperity Passport</h3>
-                  <p className="text-xs text-gray-500">Your on-chain identity</p>
+                  <h3 className="font-bold text-[var(--text-primary)]">Prosperity Passport</h3>
+                  <p className="text-xs text-[var(--text-secondary)]">Your on-chain identity</p>
                 </div>
               </div>
               <div className="flex gap-2 mt-2">
-                 <button className="flex-1 py-2 bg-black text-white rounded-[3px] text-xs font-bold hover:bg-gray-800 transition-colors">
+                 <button className="flex-1 py-2 bg-[var(--btn-primary)] text-[var(--btn-text)] rounded-[3px] text-xs font-bold hover:opacity-90 transition-opacity">
                    Passport
                  </button>
-                 <button className="flex-1 py-2 border border-gray-200 text-gray-600 rounded-[3px] text-xs font-bold hover:bg-gray-50 transition-colors">
+                 <button className="flex-1 py-2 border border-[var(--border-highlight)] text-[var(--text-secondary)] rounded-[3px] text-xs font-bold hover:bg-[var(--bg-secondary)] transition-colors">
                    Verify
                  </button>
               </div>
@@ -336,12 +416,12 @@ const App: React.FC = () => {
                     <div className="p-2 bg-yellow-100 rounded-[3px] text-yellow-700">
                       <Zap size={20} />
                     </div>
-                    <span className="font-bold text-gray-900">Governance</span>
+                    <span className="font-bold text-[var(--text-primary)]">Governance</span>
                   </div>
                   <span className="text-xs font-bold bg-green-100 text-green-800 px-2 py-1 rounded-[3px]">Active</span>
                </div>
-               <p className="text-xs text-gray-500 mb-3">Vote on proposals to shape the future of the Celo Platform.</p>
-               <button className="w-full py-2 border border-black text-black rounded-[3px] text-xs font-bold hover:bg-black hover:text-white transition-colors">
+               <p className="text-xs text-[var(--text-secondary)] mb-3">Vote on proposals to shape the future of the Celo Platform.</p>
+               <button className="w-full py-2 border border-[var(--text-primary)] text-[var(--text-primary)] rounded-[3px] text-xs font-bold hover:bg-[var(--btn-primary)] hover:text-[var(--btn-text)] transition-colors">
                  View Proposals
                </button>
             </Card>
@@ -351,14 +431,14 @@ const App: React.FC = () => {
         {/* BADGES SECTION */}
         <div className="space-y-2">
           <Card className="!p-0 overflow-hidden">
-            <div className="px-6 py-5 border-b border-gray-100 bg-white">
-              <h2 className="text-xl font-extrabold text-gray-900 tracking-tight">Badges</h2>
-              <p className="text-gray-500 text-sm mt-1.5 leading-relaxed">
+            <div className="px-6 py-5 border-b border-[var(--border-color)] bg-[var(--bg-card)]">
+              <h2 className="text-xl font-extrabold text-[var(--text-primary)] tracking-tight">Badges</h2>
+              <p className="text-[var(--text-secondary)] text-sm mt-1.5 leading-relaxed">
                 Short, Celo-aligned explanations to earn badges with confidence.
               </p>
             </div>
 
-            <div className="divide-y divide-gray-100">
+            <div className="divide-y divide-[var(--border-color)]">
               {MOCK_BADGES.map((badge) => (
                 <BadgeItem 
                   key={badge.id} 
@@ -371,13 +451,13 @@ const App: React.FC = () => {
         </div>
 
         {/* FOOTER */}
-        <footer className="flex flex-col sm:flex-row items-center justify-between gap-4 py-8 mt-4 border-t border-black/10">
-           <div className="flex items-center gap-4 text-black/70">
-              <a href="#" className="hover:text-black transition-colors"><Twitter size={20} /></a>
-              <a href="#" className="hover:text-black transition-colors"><MessageSquare size={20} /></a>
-              <a href="#" className="hover:text-black transition-colors"><Github size={20} /></a>
+        <footer className="flex flex-col sm:flex-row items-center justify-between gap-4 py-8 mt-4 border-t border-[var(--pill-bg)]">
+           <div className="flex items-center gap-4 text-[var(--text-secondary)]">
+              <a href="#" className="hover:text-[var(--text-primary)] transition-colors"><Twitter size={20} /></a>
+              <a href="#" className="hover:text-[var(--text-primary)] transition-colors"><MessageSquare size={20} /></a>
+              <a href="#" className="hover:text-[var(--text-primary)] transition-colors"><Github size={20} /></a>
            </div>
-           <div className="text-xs font-medium text-black/50">
+           <div className="text-xs font-medium text-[var(--text-secondary)] opacity-70">
              © {new Date().getFullYear()} Be a Celorian. Not affiliated with Celo Foundation.
            </div>
         </footer>
@@ -385,11 +465,11 @@ const App: React.FC = () => {
         {/* BADGE DETAILS MODAL */}
         {selectedBadge && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
-            <div className="bg-white rounded-[3px] shadow-2xl w-full max-w-md overflow-hidden relative animate-slide-up">
+            <div className="bg-[var(--bg-card)] rounded-[3px] shadow-2xl w-full max-w-md overflow-hidden relative animate-slide-up">
               
               <button 
                 onClick={handleCloseDetails}
-                className="absolute top-4 right-4 p-2 text-gray-400 hover:text-black hover:bg-gray-100 rounded-[3px] transition-colors"
+                className="absolute top-4 right-4 p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] rounded-[3px] transition-colors"
               >
                 <X size={20} />
               </button>
@@ -398,10 +478,10 @@ const App: React.FC = () => {
                 <img 
                   src={selectedBadge.image} 
                   alt={selectedBadge.name} 
-                  className="w-24 h-24 rounded-[3px] shadow-md mb-6 ring-1 ring-black/5"
+                  className="w-24 h-24 rounded-[3px] shadow-md mb-6 ring-1 ring-[var(--ring-color)]"
                 />
                 
-                <h3 className="text-2xl font-extrabold text-gray-900 mb-2 tracking-tight">
+                <h3 className="text-2xl font-extrabold text-[var(--text-primary)] mb-2 tracking-tight">
                   {selectedBadge.name}
                 </h3>
                 
@@ -409,21 +489,21 @@ const App: React.FC = () => {
                   {selectedBadge.tag}
                 </span>
 
-                <p className="text-gray-600 leading-relaxed mb-8">
+                <p className="text-[var(--text-secondary)] leading-relaxed mb-8">
                   {selectedBadge.description}
                 </p>
 
                 <div className="w-full space-y-3">
                   <button 
                     onClick={handleCloseDetails}
-                    className="w-full py-3 bg-black text-white rounded-[3px] font-bold hover:bg-gray-800 transition-colors shadow-lg shadow-black/10"
+                    className="w-full py-3 bg-[var(--btn-primary)] text-[var(--btn-text)] rounded-[3px] font-bold hover:opacity-90 transition-colors shadow-lg"
                   >
                     Close
                   </button>
                   
                   {selectedBadge.links && selectedBadge.links.length > 0 && (
-                    <div className="pt-6 border-t border-gray-100 w-full">
-                       <p className="text-xs text-gray-400 uppercase tracking-widest font-bold mb-4">Related Links</p>
+                    <div className="pt-6 border-t border-[var(--border-color)] w-full">
+                       <p className="text-xs text-[var(--text-secondary)] uppercase tracking-widest font-bold mb-4">Related Links</p>
                        <div className="flex flex-col gap-2">
                           {selectedBadge.links.map((link, i) => (
                             <a 
@@ -431,9 +511,9 @@ const App: React.FC = () => {
                               href={link.url} 
                               target="_blank"
                               rel="noreferrer"
-                              className="w-full py-2.5 px-4 bg-gray-50 hover:bg-gray-100 text-gray-900 text-sm font-semibold rounded-[3px] transition-colors flex items-center justify-between group"
+                              className="w-full py-2.5 px-4 bg-[var(--bg-secondary)] hover:bg-[var(--border-highlight)] text-[var(--text-primary)] text-sm font-semibold rounded-[3px] transition-colors flex items-center justify-between group"
                             >
-                              {link.label} <ArrowUpRight size={16} className="text-gray-400 group-hover:text-gray-900 transition-colors" />
+                              {link.label} <ArrowUpRight size={16} className="text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors" />
                             </a>
                           ))}
                        </div>
