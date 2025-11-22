@@ -83,7 +83,7 @@ export const MOCK_BADGES: Badge[] = [
       '500 transactions on CEL2'
     ],
     links: [
-      { label: 'Layer3', url: 'https://app.layer3.xyz/search?chainIds=42220' }
+      { label: 'Layer3', url: 'https://be-a-celorian.vercel.app/' }
     ]
   },
   {

@@ -397,7 +397,7 @@ const App: React.FC = () => {
               ))}
             </div>
             <div className="mt-4 pt-4 border-t border-[var(--border-color)]">
-               <a href="#" className="text-sm font-bold text-[var(--text-primary)] flex items-center gap-1 hover:gap-2 transition-all">
+               <a href="https://celo.org/ecosystem" target="_blank" className="text-sm font-bold text-[var(--text-primary)] flex items-center gap-1 hover:gap-2 transition-all">
                  Explore All Apps <ArrowUpRight size={14} />
                </a>
             </div>
@@ -472,8 +472,8 @@ const App: React.FC = () => {
         <div className="space-y-2">
           <Card className="!p-0 overflow-hidden">
              <div className="px-6 py-5 border-b border-[var(--border-color)] bg-[var(--bg-card)]">
-              <h2 className="text-xl font-extrabold text-[var(--text-primary)] tracking-tight">Routines</h2>
-              <p className="text-[var(--text-secondary)] text-sm mt-1.5 leading-relaxed">
+              <h2 className="text-xl text-center font-extrabold text-[var(--text-primary)] tracking-tight">Routines</h2>
+              <p className="text-[var(--text-secondary)] text-center text-sm mt-1.5 leading-relaxed">
                 Keep a healthy onchain cadence: learn, earn, and keep reputation active.
               </p>
               <div className="flex gap-2 mt-3">
