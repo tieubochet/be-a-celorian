@@ -527,9 +527,9 @@ const App: React.FC = () => {
         {/* FOOTER */}
         <footer className="flex flex-col sm:flex-row items-center justify-between gap-4 py-8 mt-4 border-t border-[var(--pill-bg)]">
            <div className="flex items-center gap-4 text-[var(--text-secondary)]">
-              <a href="#" className="hover:text-[var(--text-primary)] transition-colors"><Twitter size={20} /></a>
-              <a href="#" className="hover:text-[var(--text-primary)] transition-colors"><MessageSquare size={20} /></a>
-              <a href="#" className="hover:text-[var(--text-primary)] transition-colors"><Github size={20} /></a>
+              <a href="https://x.com/Celo" className="hover:text-[var(--text-primary)] transition-colors"><Twitter size={20} /></a>
+              <a href="https://discord.gg/celo" className="hover:text-[var(--text-primary)] transition-colors"><Discord size={20} /></a>
+              <a href="https://t.me/+3uD9NKPbStYwY2Nk" className="hover:text-[var(--text-primary)] transition-colors"><Telegram size={20} /></a>
            </div>
            <div className="text-xs font-medium text-[var(--text-secondary)] opacity-70">
              © {new Date().getFullYear()} Be a Celorian. Inspired by wenaltszn.eth. Not affiliated with Celo Foundation.
