@@ -421,7 +421,7 @@ const App: React.FC = () => {
                  </a>
                  <a href="https://referral.self.xyz/referral/0x01B37Edd07Ea71Eaf552b6ef1B8DcFBb328e1F39" className="flex-1 py-2 border border-[var(--border-highlight)] text-[var(--text-secondary)] rounded-[3px] text-xs font-bold hover:bg-[var(--bg-secondary)] transition-colors">
                    Self Verification
-                 </button>
+                 </a>
               </div>
             </Card>
 
@@ -442,7 +442,7 @@ const App: React.FC = () => {
                </a>
                  <a href="https://mondo.celo.org/governance" target="_blank" className="flex-1 py-2 border border-[var(--border-highlight)] text-[var(--text-secondary)] rounded-[3px] text-xs font-bold hover:bg-[var(--bg-secondary)] transition-colors">
                    Governance on Mondo
-                 </button>
+                 </a>
               </div>
                
             </Card>
