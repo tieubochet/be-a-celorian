@@ -496,9 +496,7 @@ const App: React.FC = () => {
                   {selectedBadge.name}
                 </h3>
                 
-                <span className="bg-yellow-50 text-yellow-700 text-xs font-bold px-3 py-1 rounded-[3px] border border-yellow-200 mb-6 uppercase tracking-wider">
-                  {selectedBadge.tag}
-                </span>
+                {/* Tag Removed Here */}
 
                 <p className="text-[var(--text-secondary)] leading-relaxed mb-8 text-sm sm:text-base">
                   {selectedBadge.description}
