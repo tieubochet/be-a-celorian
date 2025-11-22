@@ -108,6 +108,15 @@ const THEMES = {
   }
 };
 
+const ECOSYSTEM_APPS = [
+  { name: 'Celo Names', url: 'https://names.celo.org/' },
+  { name: 'CeloPG Ecosystem', url: 'https://www.celopg.eco/ecosystem' },
+  { name: 'Celo Ecosystem', url: 'https://celo.org/ecosystem' },
+  { name: 'Celo Bridge', url: 'https://mondo.celo.org/bridge' },
+  { name: 'Mento', url: 'https://www.mento.org/' },
+  { name: 'GoodDollar', url: 'https://www.gooddollar.org/' },
+];
+
 const App: React.FC = () => {
   const [theme, setTheme] = useState<Theme>('light');
   const { address, isConnected, chain } = useAccount();
@@ -205,7 +214,7 @@ const App: React.FC = () => {
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <img 
-              src="/img/logo-64px.png"
+              src="https://raw.githubusercontent.com/rainbow-me/rainbow-token-list/master/src/assets/celo.png" 
               alt="Celo Logo" 
               className="w-10 h-10 rounded-full shadow-lg bg-black p-1.5" 
             />
@@ -375,10 +384,16 @@ const App: React.FC = () => {
                Explore core identity & impact apps in the Celo ecosystem.
             </p>
             <div className="flex flex-wrap gap-2">
-              {['Celo Names', 'CeloPG', 'Mento', 'Uniswap', 'GoodDollar'].map((item) => (
-                <button key={item} className="px-3 py-1.5 bg-[var(--bg-secondary)] hover:bg-[var(--border-highlight)] rounded-[3px] text-sm font-medium text-[var(--text-primary)] transition-colors">
-                  {item}
-                </button>
+              {ECOSYSTEM_APPS.map((app) => (
+                <a 
+                  key={app.name} 
+                  href={app.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="px-3 py-1.5 bg-[var(--bg-secondary)] hover:bg-[var(--border-highlight)] rounded-[3px] text-sm font-medium text-[var(--text-primary)] transition-colors block sm:inline-block"
+                >
+                  {app.name}
+                </a>
               ))}
             </div>
             <div className="mt-4 pt-4 border-t border-[var(--border-color)]">
@@ -401,11 +416,11 @@ const App: React.FC = () => {
                 </div>
               </div>
               <div className="flex gap-2 mt-2">
-                 <button className="flex-1 py-2 bg-[var(--btn-primary)] text-[var(--btn-text)] rounded-[3px] text-xs font-bold hover:opacity-90 transition-opacity">
-                   Passport
-                 </button>
-                 <button className="flex-1 py-2 border border-[var(--border-highlight)] text-[var(--text-secondary)] rounded-[3px] text-xs font-bold hover:bg-[var(--bg-secondary)] transition-colors">
-                   Verify
+                 <a href="https://pass.celopg.eco/" className="flex-1 py-2 bg-[var(--btn-primary)] text-[var(--btn-text)] rounded-[3px] text-xs font-bold hover:opacity-90 transition-opacity">
+                   Prosperity Passport
+                 </a>
+                 <a href="https://referral.self.xyz/referral/0x01B37Edd07Ea71Eaf552b6ef1B8DcFBb328e1F39" className="flex-1 py-2 border border-[var(--border-highlight)] text-[var(--text-secondary)] rounded-[3px] text-xs font-bold hover:bg-[var(--bg-secondary)] transition-colors">
+                   Self Verification
                  </button>
               </div>
             </Card>
@@ -421,13 +436,41 @@ const App: React.FC = () => {
                   <span className="text-xs font-bold bg-green-100 text-green-800 px-2 py-1 rounded-[3px]">Active</span>
                </div>
                <p className="text-xs text-[var(--text-secondary)] mb-3">Vote on proposals to shape the future of the Celo Platform.</p>
-               <button className="w-full py-2 border border-[var(--text-primary)] text-[var(--text-primary)] rounded-[3px] text-xs font-bold hover:bg-[var(--btn-primary)] hover:text-[var(--btn-text)] transition-colors">
-                 View Proposals
-               </button>
+                <div className="flex gap-2 mt-2">
+                 <a href="https://mondo.celo.org/" target="_blank" className="w-full py-2 border border-[var(--text-primary)] text-[var(--text-primary)] rounded-[3px] text-xs font-bold hover:bg-[var(--btn-primary)] hover:text-[var(--btn-text)] transition-colors">
+                 Staking on Mondo
+               </a>
+                 <a href="https://mondo.celo.org/governance" target="_blank" className="flex-1 py-2 border border-[var(--border-highlight)] text-[var(--text-secondary)] rounded-[3px] text-xs font-bold hover:bg-[var(--bg-secondary)] transition-colors">
+                   Governance on Mondo
+                 </button>
+              </div>
+               
             </Card>
           </div>
         </div>
+        <div className="space-y-2">
+          <Card className="!p-0 overflow-hidden">
+            <div className="px-6 py-5 border-b border-[var(--border-color)] bg-[var(--bg-card)]">
+              <h2 className="text-xl font-extrabold text-[var(--text-primary)] tracking-tight">Routines</h2>
+              <p className="text-[var(--text-secondary)] text-sm mt-1.5 leading-relaxed">
+                Keep a healthy onchain cadence: learn, earn, and keep reputation active.
+              </p>
+              <div className="flex gap-2 mt-2">
+                 <a href="https://app.layer3.xyz/search?chainIds=42220" className="flex-1 py-2 bg-[var(--btn-primary)] text-[var(--btn-text)] rounded-[3px] text-xs font-bold hover:opacity-90 transition-opacity">
+                   Layer3 Quests
+                 </a>
+                 <a href="https://gooddapp.org/#/claim" className="flex-1 py-2 border border-[var(--border-highlight)] text-[var(--text-secondary)] rounded-[3px] text-xs font-bold hover:bg-[var(--bg-secondary)] transition-colors">
+                   Claim $G daily
+                 </a>
+                 <a href="https://app.aave.com/markets/?marketName=proto_celo_v3" className="flex-1 py-2 border border-[var(--border-highlight)] text-[var(--text-secondary)] rounded-[3px] text-xs font-bold hover:bg-[var(--bg-secondary)] transition-colors">
+                   Lend on Aave
+                 </a>
+              </div>
+            </div>
 
+
+          </Card>
+        </div>
         {/* BADGES SECTION */}
         <div className="space-y-2">
           <Card className="!p-0 overflow-hidden">
@@ -458,7 +501,7 @@ const App: React.FC = () => {
               <a href="#" className="hover:text-[var(--text-primary)] transition-colors"><Github size={20} /></a>
            </div>
            <div className="text-xs font-medium text-[var(--text-secondary)] opacity-70">
-             © {new Date().getFullYear()} Be a Celorian. Inspired by wenaltszn.eth. Not affiliated with Celo Foundation.
+             © {new Date().getFullYear()} Be a Celorian. Not affiliated with Celo Foundation.
            </div>
         </footer>
 
@@ -544,6 +587,7 @@ const App: React.FC = () => {
                    {/* Use links if available, or default Close button if needed */}
                    {selectedBadge.links && selectedBadge.links.length > 0 ? (
                      <div className="w-full">
+                        <h4 className="text-sm font-bold text-[var(--text-primary)] mb-3 text-center">Links</h4>
                         <div className="flex flex-col gap-3">
                            {selectedBadge.links.map((link, i) => (
                              <a 

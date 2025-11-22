@@ -10,11 +10,11 @@ export interface Badge {
   image: string;
   name: string;
   tag: string;
-  description: string; // Dùng làm fallback hoặc đoạn intro ngắn
+  description: string;
+  links: BadgeLink[];
   whyItMatters?: string;
   howToProgress?: string[];
   tiers?: string[];
-  links: BadgeLink[];
 }
 
 export interface SocialLink {
