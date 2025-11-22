@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Wallet, 
-  Github, 
+  Telegram, 
   Moon, 
   Sun,
   Cloud,
@@ -9,7 +9,7 @@ import {
   ArrowUpRight, 
   UserCheck, 
   Twitter,
-  MessageSquare,
+  Discord,
   X,
   ExternalLink,
   CalendarCheck,
