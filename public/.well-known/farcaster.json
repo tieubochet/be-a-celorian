@@ -6,14 +6,27 @@
     "homeUrl": "https://be-a-celorian.vercel.app",
     "imageUrl": "https://be-a-celorian.vercel.app/img/image.png",
     "splashImageUrl": "https://be-a-celorian.vercel.app/img/splash.png",
-    "splashBackgroundColor": "#000000",
+    "splashBackgroundColor": "#333333",
     "webhookUrl": "https://be-a-celorian.vercel.app/api/webhook",
-    "subtitle": "Miniapp for explore Celo Eco",
-    "description": "Miniapp for explore Celo Eco",
-    "primaryCategory": "social",
+    "subtitle": "The Celo Portal",
+    "description": "All-in-one gateway to the Celo Blockchain: DeFi, Governance, and Ecosystem.",
     "screenshotUrls": [
       "https://be-a-celorian.vercel.app/img/screenshot.png"
-    ]
+    ],
+    "primaryCategory": "social",
+    "tags": [
+      "social",
+      "celo",
+      "miniapp",
+      "celorian",
+      "celopg"
+    ],
+    "tagline": "Miniapp for explore Celo Eco",
+    "buttonTitle": "The Celo Portal",
+    "ogTitle": "Be a Celorian: The Celo Portal",
+    "ogDescription": "All-in-one gateway to the Celo Blockchain: DeFi, Governance, and Ecosystem.",
+    "heroImageUrl": "https://be-a-celorian.vercel.app/img/hero.png",
+    "ogImageUrl": "https://be-a-celorian.vercel.app/img/hero.png"
   },
   "accountAssociation": {
     "header": "eyJmaWQiOjI2MDI5OSwidHlwZSI6ImF1dGgiLCJrZXkiOiIweGE1NjNDYTRFMGZmMjIzNjMzMkUyRkRmRDkxZkZEOTZlNTk0NzQ5RkYifQ",
