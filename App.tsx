@@ -199,7 +199,7 @@ const App: React.FC = () => {
         ...(THEMES[theme] as React.CSSProperties)
       }}
     >
-      <div className="w-full max-w-[700px] flex flex-col gap-6">
+      <div className="w-full max-w-[700px] flex flex-col gap-6 pb-20 sm:pb-0">
         
         {/* HEADER */}
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -462,26 +462,37 @@ const App: React.FC = () => {
            </div>
         </footer>
 
-        {/* BADGE DETAILS MODAL */}
+        {/* BADGE DETAILS MODAL (BOTTOM SHEET ON MOBILE) */}
         {selectedBadge && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
-            <div className="bg-[var(--bg-card)] rounded-[3px] shadow-2xl w-full max-w-md overflow-hidden relative animate-slide-up">
-              
+          <div 
+            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-black/50 backdrop-blur-sm animate-fade-in"
+            onClick={handleCloseDetails}
+          >
+            <div 
+              className="w-full sm:max-w-md bg-[var(--bg-card)] rounded-t-2xl sm:rounded-[12px] shadow-2xl max-h-[85vh] sm:max-h-[auto] overflow-y-auto animate-slide-up-mobile sm:animate-zoom-in relative flex flex-col"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Mobile Drag Handle */}
+              <div className="w-full flex justify-center pt-3 pb-1 sm:hidden">
+                 <div className="w-12 h-1.5 bg-[var(--border-color)] rounded-full opacity-50"></div>
+              </div>
+
+              {/* Close Button */}
               <button 
                 onClick={handleCloseDetails}
-                className="absolute top-4 right-4 p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] rounded-[3px] transition-colors"
+                className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] rounded-full sm:rounded-[3px] transition-colors z-10"
               >
                 <X size={20} />
               </button>
 
-              <div className="flex flex-col items-center p-8 text-center">
+              <div className="flex flex-col items-center p-6 sm:p-8 text-center">
                 <img 
                   src={selectedBadge.image} 
                   alt={selectedBadge.name} 
-                  className="w-24 h-24 rounded-[3px] shadow-md mb-6 ring-1 ring-[var(--ring-color)]"
+                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-[3px] shadow-md mb-5 sm:mb-6 ring-1 ring-[var(--ring-color)]"
                 />
                 
-                <h3 className="text-2xl font-extrabold text-[var(--text-primary)] mb-2 tracking-tight">
+                <h3 className="text-xl sm:text-2xl font-extrabold text-[var(--text-primary)] mb-2 tracking-tight">
                   {selectedBadge.name}
                 </h3>
                 
@@ -489,7 +500,7 @@ const App: React.FC = () => {
                   {selectedBadge.tag}
                 </span>
 
-                <p className="text-[var(--text-secondary)] leading-relaxed mb-8">
+                <p className="text-[var(--text-secondary)] leading-relaxed mb-8 text-sm sm:text-base">
                   {selectedBadge.description}
                 </p>
 
@@ -511,7 +522,7 @@ const App: React.FC = () => {
                               href={link.url} 
                               target="_blank"
                               rel="noreferrer"
-                              className="w-full py-2.5 px-4 bg-[var(--bg-secondary)] hover:bg-[var(--border-highlight)] text-[var(--text-primary)] text-sm font-semibold rounded-[3px] transition-colors flex items-center justify-between group"
+                              className="w-full py-3 sm:py-2.5 px-4 bg-[var(--bg-secondary)] hover:bg-[var(--border-highlight)] text-[var(--text-primary)] text-sm font-semibold rounded-[3px] transition-colors flex items-center justify-between group"
                             >
                               {link.label} <ArrowUpRight size={16} className="text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors" />
                             </a>
