@@ -205,7 +205,7 @@ const App: React.FC = () => {
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <img 
-              src="https://raw.githubusercontent.com/rainbow-me/rainbow-token-list/master/src/assets/celo.png" 
+              src="/img/logo-64px.png"
               alt="Celo Logo" 
               className="w-10 h-10 rounded-full shadow-lg bg-black p-1.5" 
             />
@@ -458,7 +458,7 @@ const App: React.FC = () => {
               <a href="#" className="hover:text-[var(--text-primary)] transition-colors"><Github size={20} /></a>
            </div>
            <div className="text-xs font-medium text-[var(--text-secondary)] opacity-70">
-             © {new Date().getFullYear()} Be a Celorian. Not affiliated with Celo Foundation.
+             © {new Date().getFullYear()} Be a Celorian. Inspired by wenaltszn.eth. Not affiliated with Celo Foundation.
            </div>
         </footer>
 
@@ -544,7 +544,6 @@ const App: React.FC = () => {
                    {/* Use links if available, or default Close button if needed */}
                    {selectedBadge.links && selectedBadge.links.length > 0 ? (
                      <div className="w-full">
-                        <h4 className="text-sm font-bold text-[var(--text-primary)] mb-3 text-center">Links</h4>
                         <div className="flex flex-col gap-3">
                            {selectedBadge.links.map((link, i) => (
                              <a 

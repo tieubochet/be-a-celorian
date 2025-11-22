@@ -3,13 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Be a Celorian</title>
-    <link rel="icon" href="/img/logo-64px.png" />
+    <title>Be a Celorian - The Celo Portal</title>
+    <link rel="icon" href="/img/logo-64px.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Arsenal:ital,wght@0,400;0,700;1,400;1,700&display=swap');
       body {
         font-family: 'Arsenal', sans-serif;
+      }
+
+      /* Animation Keyframes */
+      @keyframes slide-up-mobile {
+        from { transform: translateY(100%); }
+        to { transform: translateY(0); }
+      }
+      
+      @keyframes fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      @keyframes zoom-in {
+        from { transform: scale(0.95); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+      }
+
+      .animate-slide-up-mobile {
+        animation: slide-up-mobile 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      .animate-fade-in {
+        animation: fade-in 0.2s ease-out forwards;
+      }
+      
+      .animate-zoom-in {
+        animation: zoom-in 0.2s ease-out forwards;
       }
     </style>
   <script type="importmap">
