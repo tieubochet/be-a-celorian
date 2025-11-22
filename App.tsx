@@ -335,10 +335,6 @@ const App: React.FC = () => {
               {theme === 'dim' && <Cloud size={18} />}
             </button>
 
-            {/* Utility Pills */}
-            <a href="#" className="p-2 rounded-[3px] transition-colors text-[var(--text-primary)] bg-[var(--pill-bg)] hover:bg-[var(--pill-hover)]">
-              <Github size={18} />
-            </a>
           </div>
         </header>
 
