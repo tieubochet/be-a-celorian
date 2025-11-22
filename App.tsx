@@ -390,7 +390,7 @@ const App: React.FC = () => {
                   href={app.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="px-3 py-1.5 bg-[var(--bg-secondary)] hover:bg-[var(--border-highlight)] rounded-[3px] text-sm font-medium text-[var(--text-primary)] transition-colors block sm:inline-block"
+                  className="px-3 py-1.5 bg-[var(--bg-secondary)] hover:bg-[var(--border-highlight)] rounded-[3px] text-sm font-medium text-[var(--text-primary)] transition-colors block sm:inline-block text-center"
                 >
                   {app.name}
                 </a>
@@ -416,10 +416,20 @@ const App: React.FC = () => {
                 </div>
               </div>
               <div className="flex gap-2 mt-2">
-                 <a href="https://pass.celopg.eco/" className="flex-1 py-2 bg-[var(--btn-primary)] text-[var(--btn-text)] rounded-[3px] text-xs font-bold hover:opacity-90 transition-opacity">
+                 <a 
+                   href="https://pass.celopg.eco/" 
+                   target="_blank"
+                   rel="noreferrer"
+                   className="flex-1 py-2 bg-[var(--btn-primary)] text-[var(--btn-text)] rounded-[3px] text-xs font-bold hover:opacity-90 transition-opacity flex items-center justify-center text-center"
+                 >
                    Prosperity Passport
                  </a>
-                 <a href="https://referral.self.xyz/referral/0x01B37Edd07Ea71Eaf552b6ef1B8DcFBb328e1F39" className="flex-1 py-2 border border-[var(--border-highlight)] text-[var(--text-secondary)] rounded-[3px] text-xs font-bold hover:bg-[var(--bg-secondary)] transition-colors">
+                 <a 
+                   href="https://referral.self.xyz/referral/0x01B37Edd07Ea71Eaf552b6ef1B8DcFBb328e1F39" 
+                   target="_blank"
+                   rel="noreferrer"
+                   className="flex-1 py-2 border border-[var(--border-highlight)] text-[var(--text-secondary)] rounded-[3px] text-xs font-bold hover:bg-[var(--bg-secondary)] transition-colors flex items-center justify-center text-center"
+                 >
                    Self Verification
                  </a>
               </div>
@@ -436,41 +446,66 @@ const App: React.FC = () => {
                   <span className="text-xs font-bold bg-green-100 text-green-800 px-2 py-1 rounded-[3px]">Active</span>
                </div>
                <p className="text-xs text-[var(--text-secondary)] mb-3">Vote on proposals to shape the future of the Celo Platform.</p>
-                <div className="flex gap-2 mt-2">
-                 <a href="https://mondo.celo.org/" target="_blank" className="w-full py-2 border border-[var(--text-primary)] text-[var(--text-primary)] rounded-[3px] text-xs font-bold hover:bg-[var(--btn-primary)] hover:text-[var(--btn-text)] transition-colors">
-                 Staking on Mondo
-               </a>
-                 <a href="https://mondo.celo.org/governance" target="_blank" className="flex-1 py-2 border border-[var(--border-highlight)] text-[var(--text-secondary)] rounded-[3px] text-xs font-bold hover:bg-[var(--bg-secondary)] transition-colors">
+               <div className="flex gap-2 mt-2">
+                 <a 
+                   href="https://mondo.celo.org/" 
+                   target="_blank" 
+                   rel="noreferrer"
+                   className="flex-1 py-2 border border-[var(--text-primary)] text-[var(--text-primary)] rounded-[3px] text-xs font-bold hover:bg-[var(--btn-primary)] hover:text-[var(--btn-text)] transition-colors flex items-center justify-center text-center"
+                 >
+                   Staking on Mondo
+                 </a>
+                 <a 
+                   href="https://mondo.celo.org/governance" 
+                   target="_blank" 
+                   rel="noreferrer"
+                   className="flex-1 py-2 border border-[var(--border-highlight)] text-[var(--text-secondary)] rounded-[3px] text-xs font-bold hover:bg-[var(--bg-secondary)] transition-colors flex items-center justify-center text-center"
+                 >
                    Governance on Mondo
                  </a>
-              </div>
-               
+               </div>
             </Card>
           </div>
         </div>
+
+        {/* Routines Section */}
         <div className="space-y-2">
           <Card className="!p-0 overflow-hidden">
-            <div className="px-6 py-5 border-b border-[var(--border-color)] bg-[var(--bg-card)]">
+             <div className="px-6 py-5 border-b border-[var(--border-color)] bg-[var(--bg-card)]">
               <h2 className="text-xl font-extrabold text-[var(--text-primary)] tracking-tight">Routines</h2>
               <p className="text-[var(--text-secondary)] text-sm mt-1.5 leading-relaxed">
                 Keep a healthy onchain cadence: learn, earn, and keep reputation active.
               </p>
-              <div className="flex gap-2 mt-2">
-                 <a href="https://app.layer3.xyz/search?chainIds=42220" className="flex-1 py-2 bg-[var(--btn-primary)] text-[var(--btn-text)] rounded-[3px] text-xs font-bold hover:opacity-90 transition-opacity">
+              <div className="flex gap-2 mt-3">
+                 <a 
+                   href="https://app.layer3.xyz/search?chainIds=42220" 
+                   target="_blank"
+                   rel="noreferrer"
+                   className="flex-1 py-2 bg-[var(--btn-primary)] text-[var(--btn-text)] rounded-[3px] text-xs font-bold hover:opacity-90 transition-opacity flex items-center justify-center text-center"
+                 >
                    Layer3 Quests
                  </a>
-                 <a href="https://gooddapp.org/#/claim" className="flex-1 py-2 border border-[var(--border-highlight)] text-[var(--text-secondary)] rounded-[3px] text-xs font-bold hover:bg-[var(--bg-secondary)] transition-colors">
+                 <a 
+                   href="https://gooddapp.org/#/claim" 
+                   target="_blank"
+                   rel="noreferrer"
+                   className="flex-1 py-2 border border-[var(--border-highlight)] text-[var(--text-secondary)] rounded-[3px] text-xs font-bold hover:bg-[var(--bg-secondary)] transition-colors flex items-center justify-center text-center"
+                 >
                    Claim $G daily
                  </a>
-                 <a href="https://app.aave.com/markets/?marketName=proto_celo_v3" className="flex-1 py-2 border border-[var(--border-highlight)] text-[var(--text-secondary)] rounded-[3px] text-xs font-bold hover:bg-[var(--bg-secondary)] transition-colors">
+                 <a 
+                   href="https://app.aave.com/markets/?marketName=proto_celo_v3" 
+                   target="_blank"
+                   rel="noreferrer"
+                   className="flex-1 py-2 border border-[var(--border-highlight)] text-[var(--text-secondary)] rounded-[3px] text-xs font-bold hover:bg-[var(--bg-secondary)] transition-colors flex items-center justify-center text-center"
+                 >
                    Lend on Aave
                  </a>
               </div>
             </div>
-
-
           </Card>
         </div>
+
         {/* BADGES SECTION */}
         <div className="space-y-2">
           <Card className="!p-0 overflow-hidden">
@@ -501,7 +536,7 @@ const App: React.FC = () => {
               <a href="#" className="hover:text-[var(--text-primary)] transition-colors"><Github size={20} /></a>
            </div>
            <div className="text-xs font-medium text-[var(--text-secondary)] opacity-70">
-             © {new Date().getFullYear()} Be a Celorian. Not affiliated with Celo Foundation.
+             © {new Date().getFullYear()} Be a Celorian. Inspired by wenaltszn.eth. Not affiliated with Celo Foundation.
            </div>
         </footer>
 
