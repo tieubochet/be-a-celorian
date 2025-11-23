@@ -225,7 +225,7 @@ const App: React.FC = () => {
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <img 
-              src="https://raw.githubusercontent.com/rainbow-me/rainbow-token-list/master/src/assets/celo.png" 
+              src="/img/logo-64px.png" 
               alt="Celo Logo" 
               className="w-10 h-10 rounded-full shadow-lg bg-black p-1.5" 
             />
@@ -347,9 +347,7 @@ const App: React.FC = () => {
             </button>
 
             {/* Utility Pills */}
-            <a href="#" className="p-2 rounded-[3px] transition-colors text-[var(--text-primary)] bg-[var(--pill-bg)] hover:bg-[var(--pill-hover)]">
-              <Github size={18} />
-            </a>
+           
           </div>
         </header>
 
@@ -408,7 +406,7 @@ const App: React.FC = () => {
               ))}
             </div>
             <div className="mt-4 pt-4 border-t border-[var(--border-color)]">
-               <a href="#" className="text-sm font-bold text-[var(--text-primary)] flex items-center gap-1 hover:gap-2 transition-all">
+               <a href="https://celo.org/ecosystem" className="text-sm font-bold text-[var(--text-primary)] flex items-center gap-1 hover:gap-2 transition-all">
                  Explore All Apps <ArrowUpRight size={14} />
                </a>
             </div>
@@ -483,8 +481,8 @@ const App: React.FC = () => {
         <div className="space-y-2">
           <Card className="!p-0 overflow-hidden">
              <div className="px-6 py-5 border-b border-[var(--border-color)] bg-[var(--bg-card)]">
-              <h2 className="text-xl font-extrabold text-[var(--text-primary)] tracking-tight">Routines</h2>
-              <p className="text-[var(--text-secondary)] text-sm mt-1.5 leading-relaxed">
+              <h2 className="text-xl font-extrabold text-center text-[var(--text-primary)] tracking-tight">Routines</h2>
+              <p className="text-[var(--text-secondary)] text-center text-sm mt-1.5 leading-relaxed">
                 Keep a healthy onchain cadence: learn, earn, and keep reputation active.
               </p>
               <div className="flex gap-2 mt-3">
