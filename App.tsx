@@ -553,7 +553,7 @@ const App: React.FC = () => {
                     href={program.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="px-4 py-2 bg-[var(--btn-primary)] text-[var(--btn-text)] rounded-full text-sm font-bold hover:opacity-80 transition-all shadow-sm"
+                    className="px-4 py-2 bg-[var(--btn-primary)] text-[var(--btn-text)] rounded-[3px] text-sm font-bold hover:opacity-80 transition-all shadow-sm"
                   >
                     {program.name}
                   </a>
