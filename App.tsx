@@ -110,11 +110,12 @@ const THEMES = {
 };
 
 const ECOSYSTEM_APPS = [
-  { name: 'Celo Names', url: 'https://celo.name' },
-  { name: 'CeloPG', url: 'https://celopg.eco' },
-  { name: 'Mento', url: 'https://app.mento.org' },
-  { name: 'Uniswap', url: 'https://app.uniswap.org' },
-  { name: 'GoodDollar', url: 'https://wallet.gooddollar.org' },
+  { name: 'Celo Names', url: 'https://names.celo.org/' },
+  { name: 'CeloPG Ecosystem', url: 'https://www.celopg.eco/ecosystem' },
+  { name: 'Celo Ecosystem', url: 'https://celo.org/ecosystem' },
+  { name: 'Celo Bridge', url: 'https://mondo.celo.org/bridge' },
+  { name: 'Mento', url: 'https://www.mento.org/' },
+  { name: 'GoodDollar', url: 'https://www.gooddollar.org/' },
 ];
 
 const BUILDER_PROGRAMS = [
