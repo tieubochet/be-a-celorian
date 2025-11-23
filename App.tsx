@@ -14,7 +14,8 @@ import {
   ExternalLink,
   CalendarCheck,
   Loader2,
-  Flame
+  Flame,
+  Send
 } from 'lucide-react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount, useBalance, useTransactionCount, useWriteContract, useWaitForTransactionReceipt, useReadContract } from 'wagmi';
@@ -563,9 +564,13 @@ const App: React.FC = () => {
         {/* FOOTER */}
         <footer className="flex flex-col sm:flex-row items-center justify-between gap-4 py-8 mt-4 border-t border-[var(--pill-bg)]">
            <div className="flex items-center gap-4 text-[var(--text-secondary)]">
-              <a href="#" className="hover:text-[var(--text-primary)] transition-colors"><Twitter size={20} /></a>
-              <a href="#" className="hover:text-[var(--text-primary)] transition-colors"><MessageSquare size={20} /></a>
-              <a href="#" className="hover:text-[var(--text-primary)] transition-colors"><Github size={20} /></a>
+              <a href="https://twitter.com/Celo" target="_blank" rel="noreferrer" className="hover:text-[var(--text-primary)] transition-colors"><Twitter size={20} /></a>
+              <a href="https://discord.com/invite/celo" target="_blank" rel="noreferrer" className="hover:text-[var(--text-primary)] transition-colors">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                   <path d="M18.894 4.344a16.027 16.027 0 0 0-3.973-1.212.08.08 0 0 0-.078.037c-.26.46-.548.997-.75 1.474-1.437-.214-2.87-.214-4.28 0-.202-.477-.49-.987-.75-1.474a.09.09 0 0 0-.086-.037 16.027 16.027 0 0 0-3.973 1.212.07.07 0 0 0-.037.028C2.52 8.635 1.71 12.776 2.81 16.85a.07.07 0 0 0 .029.052 16.074 16.074 0 0 0 4.892 2.463.08.08 0 0 0 .086-.029c.365-.495.694-1.02 1-1.57a.08.08 0 0 0-.044-.108 10.6 10.6 0 0 1-1.527-.725.08.08 0 0 1 .003-.133c.103-.077.206-.156.305-.237a.08.08 0 0 1 .086-.012c3.058 1.396 6.363 1.396 9.376 0a.08.08 0 0 1 .086.012c.1.08.202.16.305.237a.08.08 0 0 1 .003.133 10.6 10.6 0 0 1-1.527.725.08.08 0 0 0-.044.108c.306.55.635 1.075 1 1.57a.08.08 0 0 0 .086.029 16.074 16.074 0 0 0 4.892-2.463.07.07 0 0 0 .029-.052c1.15-4.25-.65-8.408-1.738-12.478a.07.07 0 0 0-.037-.028ZM8.697 13.79c-1.085 0-1.964-.996-1.964-2.215 0-1.22.855-2.215 1.964-2.215 1.117 0 1.987.996 1.964 2.215 0 1.22-.847 2.215-1.964 2.215Zm6.606 0c-1.085 0-1.964-.996-1.964-2.215 0-1.22.855-2.215 1.964-2.215 1.117 0 1.987.996 1.964 2.215 0 1.22-.847 2.215-1.964 2.215Z" />
+                </svg>
+              </a>
+              <a href="https://t.me/celoplatform" target="_blank" rel="noreferrer" className="hover:text-[var(--text-primary)] transition-colors"><Send size={20} /></a>
            </div>
            <div className="text-xs font-medium text-[var(--text-secondary)] opacity-70">
              © {new Date().getFullYear()} Be a Celorian. Inspired by wenaltszn.eth. Not affiliated with Celo Foundation.
