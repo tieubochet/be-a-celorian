@@ -109,12 +109,21 @@ const THEMES = {
 };
 
 const ECOSYSTEM_APPS = [
-  { name: 'Celo Names', url: 'https://names.celo.org/' },
-  { name: 'CeloPG Ecosystem', url: 'https://www.celopg.eco/ecosystem' },
-  { name: 'Celo Ecosystem', url: 'https://celo.org/ecosystem' },
-  { name: 'Celo Bridge', url: 'https://mondo.celo.org/bridge' },
-  { name: 'Mento', url: 'https://www.mento.org/' },
-  { name: 'GoodDollar', url: 'https://www.gooddollar.org/' },
+  { name: 'Celo Names', url: 'https://celo.name' },
+  { name: 'CeloPG', url: 'https://celopg.eco' },
+  { name: 'Mento', url: 'https://app.mento.org' },
+  { name: 'Uniswap', url: 'https://app.uniswap.org' },
+  { name: 'GoodDollar', url: 'https://wallet.gooddollar.org' },
+];
+
+const BUILDER_PROGRAMS = [
+  { name: 'Proof Of Ship', url: 'https://www.celopg.eco/programs/proof-of-ship-s1' },
+  { name: 'Proof Of Impact', url: 'https://www.celopg.eco/programs/proof-of-impact-s1' },
+  { name: 'Support Streams', url: 'https://www.celopg.eco/programs/supportstreams1' },
+  { name: 'Prezenti Peach Round', url: 'https://www.celopg.eco/programs/prezenti-peach-round' },
+  { name: 'Mini Apps Monday', url: 'https://www.celopg.eco/programs/mini-app-mondays' },
+  { name: 'Celo Builder Fund', url: 'https://www.celopg.eco/programs/celo-builder-fund' },
+  { name: 'Gitcoin Grants_24', url: 'https://www.celopg.eco/programs/gitcoin-grants-24' },
 ];
 
 const App: React.FC = () => {
@@ -214,7 +223,7 @@ const App: React.FC = () => {
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <img 
-              src="/img/logo-64px.png" 
+              src="https://raw.githubusercontent.com/rainbow-me/rainbow-token-list/master/src/assets/celo.png" 
               alt="Celo Logo" 
               className="w-10 h-10 rounded-full shadow-lg bg-black p-1.5" 
             />
@@ -335,6 +344,10 @@ const App: React.FC = () => {
               {theme === 'dim' && <Cloud size={18} />}
             </button>
 
+            {/* Utility Pills */}
+            <a href="#" className="p-2 rounded-[3px] transition-colors text-[var(--text-primary)] bg-[var(--pill-bg)] hover:bg-[var(--pill-hover)]">
+              <Github size={18} />
+            </a>
           </div>
         </header>
 
@@ -393,7 +406,7 @@ const App: React.FC = () => {
               ))}
             </div>
             <div className="mt-4 pt-4 border-t border-[var(--border-color)]">
-               <a href="https://celo.org/ecosystem" target="_blank" className="text-sm font-bold text-[var(--text-primary)] flex items-center gap-1 hover:gap-2 transition-all">
+               <a href="#" className="text-sm font-bold text-[var(--text-primary)] flex items-center gap-1 hover:gap-2 transition-all">
                  Explore All Apps <ArrowUpRight size={14} />
                </a>
             </div>
@@ -468,8 +481,8 @@ const App: React.FC = () => {
         <div className="space-y-2">
           <Card className="!p-0 overflow-hidden">
              <div className="px-6 py-5 border-b border-[var(--border-color)] bg-[var(--bg-card)]">
-              <h2 className="text-xl text-center font-extrabold text-[var(--text-primary)] tracking-tight">Routines</h2>
-              <p className="text-[var(--text-secondary)] text-center text-sm mt-1.5 leading-relaxed">
+              <h2 className="text-xl font-extrabold text-[var(--text-primary)] tracking-tight">Routines</h2>
+              <p className="text-[var(--text-secondary)] text-sm mt-1.5 leading-relaxed">
                 Keep a healthy onchain cadence: learn, earn, and keep reputation active.
               </p>
               <div className="flex gap-2 mt-3">
@@ -524,10 +537,35 @@ const App: React.FC = () => {
           </Card>
         </div>
 
+        {/* BUILDERS PROGRAMS SECTION */}
+        <div className="space-y-2">
+          <Card className="flex flex-col items-center text-center bg-[var(--bg-card)]">
+             <h2 className="text-xl font-extrabold text-[var(--text-primary)] tracking-tight mb-1">Builders Programs</h2>
+             <p className="text-[var(--text-secondary)] text-sm leading-relaxed mb-4 max-w-md">
+               Programs that fund and accelerate public-good builders on Celo.
+             </p>
+             <div className="flex flex-wrap justify-center gap-2">
+                {BUILDER_PROGRAMS.map((program) => (
+                  <a
+                    key={program.name}
+                    href={program.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-4 py-2 bg-[var(--btn-primary)] text-[var(--btn-text)] rounded-full text-sm font-bold hover:opacity-80 transition-all shadow-sm"
+                  >
+                    {program.name}
+                  </a>
+                ))}
+             </div>
+          </Card>
+        </div>
+
         {/* FOOTER */}
         <footer className="flex flex-col sm:flex-row items-center justify-between gap-4 py-8 mt-4 border-t border-[var(--pill-bg)]">
            <div className="flex items-center gap-4 text-[var(--text-secondary)]">
-              <a href="https://x.com/Celo" className="hover:text-[var(--text-primary)] transition-colors"><Twitter size={20} /></a>
+              <a href="#" className="hover:text-[var(--text-primary)] transition-colors"><Twitter size={20} /></a>
+              <a href="#" className="hover:text-[var(--text-primary)] transition-colors"><MessageSquare size={20} /></a>
+              <a href="#" className="hover:text-[var(--text-primary)] transition-colors"><Github size={20} /></a>
            </div>
            <div className="text-xs font-medium text-[var(--text-secondary)] opacity-70">
              © {new Date().getFullYear()} Be a Celorian. Inspired by wenaltszn.eth. Not affiliated with Celo Foundation.
