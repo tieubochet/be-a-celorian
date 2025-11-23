@@ -660,7 +660,6 @@ const App: React.FC = () => {
                    {/* Use links if available, or default Close button if needed */}
                    {selectedBadge.links && selectedBadge.links.length > 0 ? (
                      <div className="w-full">
-                        <h4 className="text-sm font-bold text-[var(--text-primary)] mb-3 text-center">Links</h4>
                         <div className="flex flex-col gap-3">
                            {selectedBadge.links.map((link, i) => (
                              <a 
