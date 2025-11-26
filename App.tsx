@@ -157,6 +157,16 @@ const App: React.FC = () => {
     setTheme(nextTheme);
     localStorage.setItem('celorian-theme', nextTheme);
   };
+
+  const handleShare = () => {
+    // Create a Warpcast compose URL to share the app
+    const text = "I'm exploring the Celo ecosystem and building my on-chain identity with Be a Celorian 🟡🌱 ";
+    const embedUrl = window.location.href;
+    const shareUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(text)}&embeds[]=${encodeURIComponent(embedUrl)}`;
+    
+    // Use the Farcaster SDK to open the URL
+    sdk.actions.openUrl(shareUrl);
+  };
   
   const { data: balanceData } = useBalance({
     address,
@@ -344,6 +354,15 @@ const App: React.FC = () => {
               {theme === 'light' && <Sun size={18} />}
               {theme === 'dark' && <Moon size={18} />}
               {theme === 'dim' && <Cloud size={18} />}
+            </button>
+
+            {/* Share Button */}
+            <button 
+              onClick={handleShare}
+              className="p-2 rounded-[3px] transition-colors text-[var(--text-primary)] bg-[var(--pill-bg)] hover:bg-[var(--pill-hover)]"
+              title="Share App on Farcaster"
+            >
+              <Share size={18} />
             </button>
 
             {/* Utility Pills */}
