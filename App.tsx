@@ -162,7 +162,7 @@ const App: React.FC = () => {
   const handleShare = () => {
     // Create a Warpcast compose URL to share the app
     const text = "I'm exploring the Celo ecosystem and building my on-chain identity with Be a Celorian 🟡🌱 ";
-    const embedUrl = window.location.href;
+    const embedUrl = "https://farcaster.xyz/miniapps/69c0bTbNR97F/be-a-celorian";
     const shareUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(text)}&embeds[]=${encodeURIComponent(embedUrl)}`;
     
     // Use the Farcaster SDK to open the URL
@@ -341,7 +341,7 @@ const App: React.FC = () => {
                   ? 'Signing...' 
                   : isConfirming 
                     ? 'Confirming...' 
-                    : `Daily Streak: ${streakData ? streakData.toString() : '0'}`
+                    : `Streak: ${streakData ? streakData.toString() : '0'}`
                 }
               </button>
             )}
