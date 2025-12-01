@@ -101,6 +101,10 @@ npm run build
 
 This will generate static files in the `dist` directory, which can be deployed to Vercel, Netlify, or any static host.
 
+## 🌐 Live Demo
+
+https://be-a-celorian.vercel.app/
+
 ## 📄 License
 
 This project is for educational and community purposes. Inspired by wenaltszn.eth.
