@@ -25,7 +25,6 @@ import { formatUnits } from 'viem';
 import { sdk } from '@farcaster/miniapp-sdk';
 import { Card } from './components/Card';
 import { BadgeItem } from './components/BadgeItem';
-import { MOCK_BADGES } from './constants';
 import { Badge } from './types';
 
 const CHECK_IN_CONTRACT = '0xa6172aa54722d4f99d0996aa6a6138181b7ee792';
