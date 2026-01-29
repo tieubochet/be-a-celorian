@@ -1,69 +1,80 @@
 import React from 'react';
 import { Badge } from '../types';
-import { ExternalLink, Info, CheckCircle2, Lock } from 'lucide-react'; // Import thêm icon
+import { ExternalLink, Info, Check, Lock } from 'lucide-react';
 
 interface BadgeItemProps {
   badge: Badge;
-  isCompleted?: boolean; // [MỚI] Prop tùy chọn
+  isCompleted?: boolean;
   onDetailsClick: (badge: Badge) => void;
 }
 
 export const BadgeItem: React.FC<BadgeItemProps> = ({ badge, isCompleted = false, onDetailsClick }) => {
   return (
-    <div className={`group grid ... ${isCompleted ? 'bg-green-50/50 dark:bg-green-900/10' : ''}`}> 
-      {/* COLUMN 1: Logo/Image */}
-      <div className="flex shrink-0 relative">
+    <div 
+      className={`
+        group relative grid grid-cols-[auto_1fr] sm:grid-cols-[auto_1fr_auto] 
+        items-start sm:items-center gap-x-4 gap-y-3 sm:gap-6 p-4 sm:p-5 
+        border-b border-[var(--border-color)] transition-all duration-200 
+        last:border-0
+        ${isCompleted ? 'bg-green-50/40 dark:bg-green-900/10' : 'hover:bg-[var(--hover-bg)]'}
+      `}
+    >
+      
+      {/* CỘT 1: Logo/Image & Trạng thái Checkmark */}
+      <div className="relative flex shrink-0">
         <img 
           src={badge.image} 
           alt={badge.name} 
-          className={`w-12 h-12 sm:w-16 sm:h-16 rounded-[3px] object-cover shadow-sm ring-1 ring-[var(--ring-color)] ${!isCompleted ? 'grayscale opacity-80' : ''}`}
+          className={`
+            w-12 h-12 sm:w-16 sm:h-16 rounded-[8px] object-cover shadow-sm 
+            ring-1 ring-[var(--ring-color)] transition-all duration-300
+            ${!isCompleted ? 'grayscale opacity-90' : 'grayscale-0'}
+          `}
         />
-        {/* [MỚI] Overlay Icon trạng thái */}
-        <div className="absolute -bottom-1 -right-1 bg-[var(--bg-card)] rounded-full p-0.5 shadow-sm">
-           {isCompleted ? (
-             <CheckCircle2 size={20} className="text-green-500 fill-green-100" />
-           ) : (
-             <div className="w-5 h-5" /> // Placeholder hoặc icon Lock
-           )}
+        
+        {/* Icon Overlay: Chỉ hiện khi hoàn thành hoặc chưa hoàn thành (tùy chọn) */}
+        <div className={`
+          absolute -bottom-2 -right-2 rounded-full p-1 border-2 border-[var(--bg-card)] shadow-sm flex items-center justify-center
+          ${isCompleted ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-500 hidden'}
+        `}>
+           {isCompleted ? <Check size={12} strokeWidth={3} /> : <Lock size={12} />}
         </div>
       </div>
 
-      {/* COLUMN 2: Content */}
+      {/* CỘT 2: Nội dung chính */}
       <div className="flex flex-col gap-1.5 sm:gap-2 min-w-0">
-        <div className="flex items-center flex-wrap gap-y-1 sm:gap-y-2">
-          <h3 className="font-extrabold text-[var(--text-primary)] text-base sm:text-lg leading-tight mr-2 sm:mr-3">
+        <div className="flex flex-wrap items-center gap-2">
+          <h3 className="font-extrabold text-[var(--text-primary)] text-base sm:text-lg leading-tight">
             {badge.name}
           </h3>
           
-          {/* [MỚI] Badge Label trạng thái */}
+          {/* Nhãn EARNED */}
           {isCompleted && (
-            <span className="px-2 py-0.5 bg-green-100 text-green-700 text-[10px] font-bold uppercase tracking-wide rounded-[3px]">
+            <span className="inline-flex items-center px-2 py-0.5 rounded-[4px] text-[10px] font-bold uppercase tracking-wider bg-green-100 text-green-700 border border-green-200">
               Earned
             </span>
           )}
-          
-          <div className="flex items-center gap-2">
-            {/* Details Button */}
-            <button 
-              onClick={(e) => {
-                e.stopPropagation(); 
-                onDetailsClick(badge);
-              }}
-              className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-[var(--bg-secondary)] hover:bg-yellow-100 hover:text-yellow-800 text-[var(--text-secondary)] text-[10px] font-bold rounded-[3px] transition-colors cursor-pointer"
-              title="View details"
-            >
-              <Info size={10} />
-              <span>Details</span>
-            </button>
-          </div>
+
+          {/* Nút Details nhỏ */}
+          <button 
+            onClick={(e) => {
+              e.stopPropagation(); 
+              onDetailsClick(badge);
+            }}
+            className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-[var(--bg-secondary)] hover:bg-yellow-100 hover:text-yellow-800 text-[var(--text-secondary)] text-[10px] font-bold rounded-[4px] transition-colors cursor-pointer ml-auto sm:ml-0"
+            title="View details"
+          >
+            <Info size={10} />
+            <span>Details</span>
+          </button>
         </div>
 
-        <p className="text-[var(--text-secondary)] text-sm leading-relaxed line-clamp-2 sm:line-clamp-none">
+        <p className="text-[var(--text-secondary)] text-sm leading-relaxed line-clamp-2 sm:line-clamp-none pr-0 sm:pr-4">
           {badge.description}
         </p>
       </div>
 
-      {/* COLUMN 3: Action Buttons (Row 2 on Mobile, Col 3 on Desktop) */}
+      {/* CỘT 3: Các nút hành động (Links) */}
       <div className="col-span-2 sm:col-span-1 flex flex-wrap sm:flex-col gap-2 w-full sm:w-auto items-center sm:items-end justify-start sm:justify-end mt-1 sm:mt-0">
         <div className="flex flex-wrap sm:flex-col gap-2 w-full sm:w-auto sm:items-end justify-start">
           {badge.links && badge.links.length > 0 ? (
@@ -73,7 +84,7 @@ export const BadgeItem: React.FC<BadgeItemProps> = ({ badge, isCompleted = false
                 href={link.url}
                 target="_blank"
                 rel="noreferrer"
-                className="whitespace-nowrap inline-flex items-center justify-center gap-1.5 px-3 py-1.5 bg-[var(--btn-primary)] text-[var(--btn-text)] border border-[var(--btn-primary)] hover:opacity-90 text-xs font-bold rounded-[3px] transition-all shadow-sm active:translate-y-0.5 w-auto flex-1 sm:flex-initial"
+                className="whitespace-nowrap inline-flex items-center justify-center gap-1.5 px-3 py-1.5 bg-[var(--btn-primary)] text-[var(--btn-text)] border border-[var(--btn-primary)] hover:opacity-90 text-xs font-bold rounded-[4px] transition-all shadow-sm active:translate-y-0.5 w-auto flex-1 sm:flex-initial"
               >
                 {link.label}
                 <ExternalLink size={10} className="opacity-70" />
@@ -83,7 +94,7 @@ export const BadgeItem: React.FC<BadgeItemProps> = ({ badge, isCompleted = false
             <span className="hidden sm:block text-xs text-[var(--text-secondary)] italic pr-2">No links</span>
           )}
           
-          {/* Overflow indicator for links */}
+          {/* Link ẩn nếu quá nhiều */}
           {badge.links && badge.links.length > 2 && (
              <a 
                href={badge.links[0].url} 
