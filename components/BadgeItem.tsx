@@ -1,31 +1,46 @@
 import React from 'react';
 import { Badge } from '../types';
-import { ExternalLink, Info } from 'lucide-react';
+import { ExternalLink, Info, CheckCircle2, Lock } from 'lucide-react'; // Import thêm icon
 
 interface BadgeItemProps {
   badge: Badge;
+  isCompleted?: boolean; // [MỚI] Prop tùy chọn
   onDetailsClick: (badge: Badge) => void;
 }
 
-export const BadgeItem: React.FC<BadgeItemProps> = ({ badge, onDetailsClick }) => {
+export const BadgeItem: React.FC<BadgeItemProps> = ({ badge, isCompleted = false, onDetailsClick }) => {
   return (
-    <div className="group grid grid-cols-[auto_1fr] sm:grid-cols-[auto_1fr_auto] items-start sm:items-center gap-x-4 gap-y-3 sm:gap-6 p-4 sm:p-5 border-b border-[var(--border-color)] hover:bg-[var(--hover-bg)] transition-all duration-200 last:border-0">
-      
-      {/* COLUMN 1: Logo/Image (Left side of Row 1 on Mobile) */}
-      <div className="flex shrink-0">
+    <div className={`group grid ... ${isCompleted ? 'bg-green-50/50 dark:bg-green-900/10' : ''}`}> 
+      {/* COLUMN 1: Logo/Image */}
+      <div className="flex shrink-0 relative">
         <img 
           src={badge.image} 
           alt={badge.name} 
-          className="w-12 h-12 sm:w-16 sm:h-16 rounded-[3px] object-cover shadow-sm ring-1 ring-[var(--ring-color)]"
+          className={`w-12 h-12 sm:w-16 sm:h-16 rounded-[3px] object-cover shadow-sm ring-1 ring-[var(--ring-color)] ${!isCompleted ? 'grayscale opacity-80' : ''}`}
         />
+        {/* [MỚI] Overlay Icon trạng thái */}
+        <div className="absolute -bottom-1 -right-1 bg-[var(--bg-card)] rounded-full p-0.5 shadow-sm">
+           {isCompleted ? (
+             <CheckCircle2 size={20} className="text-green-500 fill-green-100" />
+           ) : (
+             <div className="w-5 h-5" /> // Placeholder hoặc icon Lock
+           )}
+        </div>
       </div>
 
-      {/* COLUMN 2: Content (Right side of Row 1 on Mobile) */}
+      {/* COLUMN 2: Content */}
       <div className="flex flex-col gap-1.5 sm:gap-2 min-w-0">
         <div className="flex items-center flex-wrap gap-y-1 sm:gap-y-2">
           <h3 className="font-extrabold text-[var(--text-primary)] text-base sm:text-lg leading-tight mr-2 sm:mr-3">
             {badge.name}
           </h3>
+          
+          {/* [MỚI] Badge Label trạng thái */}
+          {isCompleted && (
+            <span className="px-2 py-0.5 bg-green-100 text-green-700 text-[10px] font-bold uppercase tracking-wide rounded-[3px]">
+              Earned
+            </span>
+          )}
           
           <div className="flex items-center gap-2">
             {/* Details Button */}

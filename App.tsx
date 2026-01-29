@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount, useBalance, useTransactionCount, useWriteContract, useWaitForTransactionReceipt, useReadContract } from 'wagmi';
+import { MOCK_BADGES } from './constants';
 import { formatUnits } from 'viem';
 import { sdk } from '@farcaster/miniapp-sdk';
 import { Card } from './components/Card';
@@ -129,6 +130,31 @@ const BUILDER_PROGRAMS = [
   { name: 'Gitcoin Grants_24', url: 'https://www.celopg.eco/programs/gitcoin-grants-24' },
 ];
 
+
+const useBadgeVerifier = (address: string | undefined) => {
+
+  const { data: txCount } = useTransactionCount({ address: address as `0x${string}` });
+
+
+  const { data: balance } = useBalance({ address: address as `0x${string}` });
+
+
+  const checkBadgeStatus = (badgeId: string): boolean => {
+    if (!address) return false;
+
+    switch (badgeId) {
+      case 'cel2-tx': 
+      case 's1-tx': 
+        return txCount ? txCount >= 10 : false;
+      
+      default:
+        return false;
+    }
+  };
+
+  return { checkBadgeStatus, txCount };
+};
+
 const App: React.FC = () => {
   const [theme, setTheme] = useState<Theme>('light');
   const { address, isConnected, chain } = useAccount();
@@ -221,6 +247,8 @@ const App: React.FC = () => {
   const handleCloseDetails = () => {
     setSelectedBadge(null);
   };
+
+  const { checkBadgeStatus } = useBadgeVerifier(address);
 
   return (
     <div 
@@ -546,13 +574,18 @@ const App: React.FC = () => {
             </div>
 
             <div className="divide-y divide-[var(--border-color)]">
-              {MOCK_BADGES.map((badge) => (
-                <BadgeItem 
-                  key={badge.id} 
-                  badge={badge} 
-                  onDetailsClick={handleOpenDetails}
-                />
-              ))}
+              {MOCK_BADGES.map((badge) => {
+                const isCompleted = checkBadgeStatus(badge.id);
+                
+                return (
+                  <BadgeItem 
+                    key={badge.id} 
+                    badge={badge} 
+                    isCompleted={isCompleted} 
+                    onDetailsClick={handleOpenDetails}
+                  />
+                );
+              })}
             </div>
           </Card>
         </div>
