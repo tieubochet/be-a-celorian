@@ -457,8 +457,8 @@ const App: React.FC = () => {
                     // Lấy số dư từ kết quả useReadContracts
                     const rawBalance = tokenBalances?.[index]?.result;
                     const formattedBalance = rawBalance 
-                      ? Number(formatUnits(rawBalance as bigint, token.decimals)).toFixed(2) 
-                      : '0.00';
+                    ? Number(formatUnits(rawBalance as unknown as bigint, token.decimals)).toFixed(2) 
+                    : '0.00';
 
                     return (
                       <div key={token.symbol} className="flex items-center gap-2 p-2 rounded-[8px] bg-[var(--bg-secondary)] border border-[var(--border-color)]">
