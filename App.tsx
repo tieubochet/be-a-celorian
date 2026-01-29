@@ -19,8 +19,8 @@ import {
   Share
 } from 'lucide-react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount, useBalance, useTransactionCount, useWriteContract, useWaitForTransactionReceipt, useReadContract } from 'wagmi';
-import { MOCK_BADGES } from './constants';
+import { useAccount, useBalance, useTransactionCount, useWriteContract, useWaitForTransactionReceipt, useReadContract, useReadContracts } from 'wagmi';
+import { MOCK_BADGES, SUPPORTED_TOKENS, ERC20_ABI } from './constants';
 import { formatUnits } from 'viem';
 import { sdk } from '@farcaster/miniapp-sdk';
 import { Card } from './components/Card';
@@ -200,6 +200,19 @@ const App: React.FC = () => {
 
   const { data: txCount } = useTransactionCount({
     address,
+  });
+
+  const { data: tokenBalances } = useReadContracts({
+    contracts: SUPPORTED_TOKENS.map((token) => ({
+      address: token.address as `0x${string}`,
+      abi: ERC20_ABI,
+      functionName: 'balanceOf',
+      args: [address as `0x${string}`],
+    })),
+    query: {
+      enabled: !!address,
+      refetchInterval: 10000, 
+    }
   });
 
   // Read Contract: Get Streak
@@ -402,36 +415,72 @@ const App: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           
           {/* Wallet Status Card */}
-          <Card className="sm:col-span-2 flex items-center justify-between relative overflow-hidden">
-            <div className="z-10">
-              <h2 className="text-[var(--text-secondary)] text-sm font-semibold uppercase tracking-wider mb-1">Wallet Balance</h2>
-              {isConnected ? (
-                <div className="flex items-baseline gap-2 flex-wrap">
-                  <span className="text-4xl font-bold text-[var(--text-primary)]">
-                    {balanceData ? Number(formatUnits(balanceData.value, balanceData.decimals)).toFixed(3) : '0.000'}
-                  </span>
-                  <span className="text-xl font-medium text-[var(--text-secondary)]">
-                    {balanceData?.symbol || 'CELO'}
-                  </span>
-                  <span className="text-lg font-medium text-[var(--text-secondary)] opacity-70 ml-1">
-                    ({txCount ? txCount.toString() : '0'} txs)
-                  </span>
+          <Card className="sm:col-span-2 relative overflow-hidden">
+            <div className="flex flex-col gap-4 z-10 relative">
+              
+              {/* Header & Main Asset (CELO) */}
+              <div className="flex justify-between items-start">
+                <div>
+                  <h2 className="text-[var(--text-secondary)] text-sm font-semibold uppercase tracking-wider mb-1">
+                    My Portfolio
+                  </h2>
+                  {isConnected ? (
+                     <div className="flex items-baseline gap-2">
+                        <span className="text-3xl font-bold text-[var(--text-primary)]">
+                          {balanceData ? Number(formatUnits(balanceData.value, balanceData.decimals)).toFixed(2) : '0.00'}
+                        </span>
+                        <span className="text-lg font-bold text-[var(--text-secondary)]">CELO</span>
+                     </div>
+                  ) : (
+                    <p className="text-[var(--text-primary)] font-medium text-lg">Connect wallet to view</p>
+                  )}
                 </div>
-              ) : (
-                <div className="flex flex-col gap-2">
-                  <p className="text-[var(--text-primary)] font-medium text-lg">Not connected</p>
-                  <ConnectButton.Custom>
-                    {({ openConnectModal }) => (
-                      <button onClick={openConnectModal} className="text-blue-500 text-sm font-semibold hover:underline flex items-center gap-1">
-                        Connect to show status <ArrowUpRight size={14} />
-                      </button>
-                    )}
-                  </ConnectButton.Custom>
-                </div>
-              )}
+
+                {/* Nút Swap nhanh */}
+                <a 
+                  href="https://app.uniswap.org/swap?chain=celo" 
+                  target="_blank" 
+                  rel="noreferrer"
+                  className="px-3 py-1.5 bg-[var(--text-primary)] text-[var(--bg-app)] rounded-full text-xs font-bold hover:opacity-80 transition-opacity flex items-center gap-1"
+                >
+                  Swap <ArrowUpRight size={12} />
+                </a>
+              </div>
+
+              {/* Divider */}
+              <div className="h-px w-full bg-[var(--border-color)]"></div>
+
+              {/* Token List */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {isConnected ? (
+                  SUPPORTED_TOKENS.map((token, index) => {
+                    // Lấy số dư từ kết quả useReadContracts
+                    const rawBalance = tokenBalances?.[index]?.result;
+                    const formattedBalance = rawBalance 
+                      ? Number(formatUnits(rawBalance as bigint, token.decimals)).toFixed(2) 
+                      : '0.00';
+
+                    return (
+                      <div key={token.symbol} className="flex items-center gap-2 p-2 rounded-[8px] bg-[var(--bg-secondary)] border border-[var(--border-color)]">
+                        <img src={token.image} alt={token.symbol} className="w-8 h-8 rounded-full bg-white p-0.5" />
+                        <div className="flex flex-col">
+                          <span className="text-xs font-bold text-[var(--text-secondary)]">{token.symbol}</span>
+                          <span className="text-sm font-bold text-[var(--text-primary)]">{formattedBalance}</span>
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : (
+                  // Skeleton / Placeholder khi chưa kết nối
+                  [1, 2, 3].map((i) => (
+                    <div key={i} className="h-12 rounded-[8px] bg-[var(--bg-secondary)] opacity-50 animate-pulse"></div>
+                  ))
+                )}
+              </div>
             </div>
-            {/* Decorative Icon Background */}
-            <Wallet className="absolute right-[-20px] bottom-[-20px] text-[var(--text-primary)] opacity-5 rotate-[-15deg]" size={140} />
+            
+            {/* Background Decor */}
+            <Wallet className="absolute right-[-10px] bottom-[-20px] text-[var(--text-primary)] opacity-5 rotate-[-15deg]" size={120} />
           </Card>
 
           {/* Ecosystem Card */}

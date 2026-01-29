@@ -580,3 +580,52 @@ export const SOCIAL_LINKS = [
   { name: 'Discord', url: 'https://discord.gg/celo' },
   { name: 'Telegram', url: 'https://t.me/+3uD9NKPbStYwY2Nk' },
 ];
+
+export const ERC20_ABI = [
+  {
+    type: 'function',
+    name: 'balanceOf',
+    stateMutability: 'view',
+    inputs: [{ name: 'account', type: 'address' }],
+    outputs: [{ type: 'uint256' }],
+  },
+  {
+    type: 'function',
+    name: 'decimals',
+    stateMutability: 'view',
+    inputs: [],
+    outputs: [{ type: 'uint8' }],
+  },
+  {
+    type: 'function',
+    name: 'symbol',
+    stateMutability: 'view',
+    inputs: [],
+    outputs: [{ type: 'string' }],
+  },
+] as const;
+
+
+export const SUPPORTED_TOKENS = [
+  {
+    symbol: 'cUSD',
+    name: 'Celo Dollar',
+    address: '0x765DE816845861e75A25fCA122bb6898B8B1282a', // Celo Mainnet
+    decimals: 18,
+    image: 'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/cUSD.png'
+  },
+  {
+    symbol: 'USDC',
+    name: 'USDC',
+    address: '0xcebA9300f2b948710d2653dD7B07f33A8B32118C', // USDC on Celo
+    decimals: 6,
+    image: 'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/USDC.png'
+  },
+  {
+    symbol: 'USDGLO',
+    name: 'Glo Dollar',
+    address: '0x4f6047a7c34d36f1b875fa721995cdd3a098835b', // Glo on Celo
+    decimals: 18,
+    image: 'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/GLO.png'
+  }
+] as const;
