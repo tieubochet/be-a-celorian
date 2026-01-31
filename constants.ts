@@ -1,5 +1,6 @@
 import { Badge } from './types';
 
+
 export const MOCK_BADGES: Badge[] = [
   {
     id: 'celo-voter',
@@ -627,5 +628,18 @@ export const SUPPORTED_TOKENS = [
     address: '0x4f6047a7c34d36f1b875fa721995cdd3a098835b', // Glo on Celo
     decimals: 18,
     image: 'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/GLO.png'
+  }
+] as const;
+
+export const GOVERNANCE_ADDRESS = '0xD533Ca259b330c7A88f74E000a3Fa1a2a227FcCa'; 
+export const VAULT_ADDRESS = '0x57332c214E647063bB4c5A73e5A8b7bbA79Be1E4'; 
+
+export const GOVERNANCE_ABI = [
+  {
+    type: 'function',
+    name: 'isVoting',
+    stateMutability: 'view',
+    inputs: [{ name: 'account', type: 'address' }],
+    outputs: [{ type: 'bool' }],
   }
 ] as const;

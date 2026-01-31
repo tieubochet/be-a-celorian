@@ -26,6 +26,7 @@ import { sdk } from '@farcaster/miniapp-sdk';
 import { Card } from './components/Card';
 import { BadgeItem } from './components/BadgeItem';
 import { Badge } from './types';
+import { GOVERNANCE_ADDRESS, GOVERNANCE_ABI, VAULT_ADDRESS, ERC20_ABI, SUPPORTED_TOKENS } from './constants';
 
 const CHECK_IN_CONTRACT = '0xa6172aa54722d4f99d0996aa6a6138181b7ee792';
 const CHECK_IN_ABI = [
@@ -130,28 +131,55 @@ const BUILDER_PROGRAMS = [
 ];
 
 
-const useBadgeVerifier = (address: string | undefined) => {
-
+const useBadgeVerifier = (
+  address: string | undefined, 
+  tokenBalances: any[] | undefined 
+) => {
   const { data: txCount } = useTransactionCount({ address: address as `0x${string}` });
 
+  const { data: isVoting } = useReadContract({
+    address: GOVERNANCE_ADDRESS,
+    abi: GOVERNANCE_ABI,
+    functionName: 'isVoting',
+    args: address ? [address as `0x${string}`] : undefined,
+    query: { enabled: !!address }
+  });
 
-  const { data: balance } = useBalance({ address: address as `0x${string}` });
-
+  const { data: vaultBalance } = useReadContract({
+    address: VAULT_ADDRESS as `0x${string}`,
+    abi: ERC20_ABI, 
+    functionName: 'balanceOf',
+    args: address ? [address as `0x${string}`] : undefined,
+    query: { enabled: !!address }
+  });
 
   const checkBadgeStatus = (badgeId: string): boolean => {
     if (!address) return false;
 
     switch (badgeId) {
-      case 'cel2-tx': 
-      case 's1-tx': 
-        return txCount ? txCount >= 10 : false;
-      
+      case 'cel2-tx':
+      case 's1-tx':
+        return txCount ? Number(txCount) >= 10 : false;
+
+      case 'glo-dollar': {
+        const gloIndex = SUPPORTED_TOKENS.findIndex(t => t.symbol === 'USDGLO');
+        if (gloIndex === -1 || !tokenBalances) return false;
+        
+        const rawBalance = tokenBalances[gloIndex]?.result;
+        return rawBalance ? (rawBalance as unknown as bigint) > 1000000000000000000n : false;
+      }
+      case 'celo-voter':
+        return !!isVoting; 
+
+      case 'vault':
+        return vaultBalance ? (vaultBalance as unknown as bigint) > 0n : false;
+
       default:
         return false;
     }
   };
 
-  return { checkBadgeStatus, txCount };
+  return { checkBadgeStatus };
 };
 
 const App: React.FC = () => {
@@ -260,7 +288,7 @@ const App: React.FC = () => {
     setSelectedBadge(null);
   };
 
-  const { checkBadgeStatus } = useBadgeVerifier(address);
+  const { checkBadgeStatus } = useBadgeVerifier(address, tokenBalances);
 
   return (
     <div 
