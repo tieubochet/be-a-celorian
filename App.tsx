@@ -20,13 +20,12 @@ import {
 } from 'lucide-react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount, useBalance, useTransactionCount, useWriteContract, useWaitForTransactionReceipt, useReadContract, useReadContracts } from 'wagmi';
-import { MOCK_BADGES, SUPPORTED_TOKENS, ERC20_ABI } from './constants';
 import { formatUnits } from 'viem';
 import { sdk } from '@farcaster/miniapp-sdk';
 import { Card } from './components/Card';
 import { BadgeItem } from './components/BadgeItem';
 import { Badge } from './types';
-import { GOVERNANCE_ADDRESS, GOVERNANCE_ABI, VAULT_ADDRESS, ERC20_ABI, SUPPORTED_TOKENS } from './constants';
+import { MOCK_BADGES, SUPPORTED_TOKENS, ERC20_ABI, GOVERNANCE_ADDRESS, GOVERNANCE_ABI, VAULT_ADDRESS } from './constants';
 
 const CHECK_IN_CONTRACT = '0xa6172aa54722d4f99d0996aa6a6138181b7ee792';
 const CHECK_IN_ABI = [
